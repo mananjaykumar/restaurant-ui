@@ -12,42 +12,81 @@ import {
   Stack,
   Tooltip,
   MenuItem,
+  Drawer,
+  TextField,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
-import { Link, useNavigate } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
+import { ReDrawer } from "../reusable/ReDrawer";
+import Login from "../Auth/Login";
+import SignUp from "../Auth/SignUp";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../store/slices/AuthSlice";
+import toast from "react-hot-toast";
 
 // const pages = ["Products", "Pricing", "Blog"];
-const MenuData = [
-  {
-    name: "Search",
-    icon: <SearchIcon />,
-    to: "/search",
-  },
-  {
-    name: "Help",
-    icon: <SupportOutlinedIcon />,
-    to: "/help",
-  },
-  {
-    name: "Account",
-    icon: <PersonOutlineOutlinedIcon />,
-    to: "/account",
-  },
-];
-// const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function TopAppBar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userData } = useSelector((state: any) => state.auth);
+  const [showLoginDrawer, setShowLoginDrawer] = React.useState(false);
+  const [showSignUpDrawer, setShowSignUpDrawer] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const MenuData = [
+    {
+      name: "Search",
+      icon: <SearchIcon />,
+      to: "/search",
+    },
+    {
+      name: "Help",
+      icon: <SupportOutlinedIcon />,
+      to: "/help",
+    },
+    {
+      name: userData?.token ? "Account" : "Sign In",
+      icon: <PersonOutlineOutlinedIcon />,
+      to: "/account",
+    },
+  ];
+
+  const settings = [
+    {
+      name: "Profile",
+      icon: <PersonIcon />,
+      to: "/profile",
+    },
+    {
+      name: "Orders",
+      icon: <LabelImportantIcon />,
+      to: "/profile",
+    },
+    {
+      name: "Cart",
+      icon: <ShoppingCartIcon />,
+      to: "/profile",
+    },
+    {
+      name: "Logout",
+      icon: <LogoutIcon />,
+      to: "/profile",
+    },
+  ];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -116,6 +155,7 @@ function TopAppBar() {
 
             <Stack>
               <Stack direction="row" alignItems="center">
+                {/* For Mobile */}
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                   <IconButton
                     size="large"
@@ -145,11 +185,15 @@ function TopAppBar() {
                       display: { xs: "block", md: "none" },
                     }}
                   >
-                    {MenuData.map((item) => (
+                    {MenuData.map((item, index) => (
                       <MenuItem
                         key={item.name}
-                        onClick={() => {
-                          navigate(item.to);
+                        onClick={(e) => {
+                          if (index === MenuData.length - 1) {
+                            handleOpenUserMenu(e);
+                          } else {
+                            navigate(item.to);
+                          }
                           handleCloseNavMenu();
                         }}
                         sx={{ gap: "0.5rem" }}
@@ -160,6 +204,8 @@ function TopAppBar() {
                     ))}
                   </Menu>
                 </Box>
+
+                {/* For Web */}
                 <Box
                   sx={{
                     flexGrow: 1,
@@ -167,7 +213,7 @@ function TopAppBar() {
                     gap: "1.5rem",
                   }}
                 >
-                  {MenuData.map((item) => (
+                  {MenuData.map((item, index) => (
                     <Button
                       key={item.name}
                       sx={{
@@ -186,12 +232,64 @@ function TopAppBar() {
                       }}
                       startIcon={item.icon}
                       // disableRipple
-                      onClick={() => navigate(item.to)}
+                      onClick={(e) => {
+                        if (index === MenuData.length - 1) {
+                          if (userData?.token) {
+                            handleOpenUserMenu(e);
+                          } else {
+                            setShowLoginDrawer(true);
+                          }
+                        } else {
+                          navigate(item.to);
+                        }
+                      }}
                     >
                       {item.name}
                     </Button>
                   ))}
                 </Box>
+                {/* Profile Menu */}
+                <Menu
+                  sx={{
+                    mt: "45px",
+                    "& .MuiPaper-root": { xs: { top: "35px" } },
+                  }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting, index) => (
+                    <MenuItem
+                      key={setting.name}
+                      onClick={() => {
+                        if (index === settings.length - 1) {
+                          dispatch(logout());
+                          toast.success("Logged Out Successfully!");
+                        } else {
+                          navigate(setting.to);
+                        }
+                        handleCloseUserMenu();
+                      }}
+                      sx={{
+                        gap: "1rem",
+                        color: "#3d4152",
+                      }}
+                    >
+                      {setting.icon}
+                      <Typography textAlign="center">{setting.name}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
                 {/* <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -229,6 +327,53 @@ function TopAppBar() {
           </Stack>
         </Toolbar>
       </Container>
+      <ReDrawer
+        open={showLoginDrawer}
+        handleClose={() => setShowLoginDrawer(false)}
+        title="Login"
+        width="420px"
+        subHeaderComponent={
+          <Typography sx={{ fontSize: "15px" }}>
+            or{" "}
+            <Box
+              component="span"
+              sx={{ color: "#FC8019", cursor: "pointer" }}
+              onClick={() => {
+                setShowLoginDrawer(false);
+                setShowSignUpDrawer(true);
+              }}
+            >
+              create an account
+            </Box>
+          </Typography>
+        }
+      >
+        <Login setShowLoginDrawer={setShowLoginDrawer} />
+      </ReDrawer>
+
+      <ReDrawer
+        open={showSignUpDrawer}
+        handleClose={() => setShowSignUpDrawer(false)}
+        title="Sign Up"
+        width="420px"
+        subHeaderComponent={
+          <Typography sx={{ fontSize: "15px" }}>
+            or{" "}
+            <Box
+              component="span"
+              sx={{ color: "#FC8019", cursor: "pointer" }}
+              onClick={() => {
+                setShowSignUpDrawer(false);
+                setShowLoginDrawer(true);
+              }}
+            >
+              Already a User?
+            </Box>
+          </Typography>
+        }
+      >
+        <SignUp setShowSignUpDrawer={setShowSignUpDrawer} />
+      </ReDrawer>
     </AppBar>
   );
 }

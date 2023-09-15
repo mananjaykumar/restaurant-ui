@@ -46,7 +46,6 @@ const Banner = () => {
   if (loading) {
     return <>Loding...</>;
   }
-  console.log("items", items);
   return (
     <Carousel
       sx={{
@@ -73,7 +72,6 @@ const Banner = () => {
 
 function Item(props: any) {
   const { defaultItems, item } = props;
-  console.log("defaultItems: " + defaultItems);
   return (
     <Grid
       // key={index}

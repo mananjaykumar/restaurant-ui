@@ -157,6 +157,9 @@ const Admin = () => {
               "&:hover": {
                 backgroundColor: "#FC8019",
               },
+              "&.Mui-disabled": {
+                backgroundColor: "#f3f3f3",
+              },
             }}
           >
             {loading ? "Loading ..." : "Submit"}

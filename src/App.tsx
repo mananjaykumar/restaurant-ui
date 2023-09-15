@@ -8,8 +8,10 @@ import Users from "./components/Users";
 import Admin from "./components/Admin";
 import { NoMatch } from "./pages/NoMatch";
 import Home from "./pages/Home";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { userData } = useSelector((state: any) => state.auth);
   return (
     <div style={{ display: "flex" }}>
       {/* <Sidebar /> */}
@@ -17,9 +19,15 @@ function App() {
         <TopAppBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
           <Route path="/admin" element={<Admin />} />
+          {userData?.token ? (
+            <>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/users" element={<Users />} />
+            </>
+          ) : (
+            <Route path="*" element={<Home />} />
+          )}
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </div>
