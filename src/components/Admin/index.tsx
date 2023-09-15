@@ -33,7 +33,6 @@ const Admin = () => {
     },
   });
   const acceptedFiles = [".jpg", ".png", ".jpeg"];
-  console.log("bannerState", bannerState);
 
   const handleSubmit = () => {
     setLoading(true);

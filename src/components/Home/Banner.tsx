@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import axios from "axios";
-// import { imagefrombuffer } from "imagefrombuffer";
+import toast from "react-hot-toast";
 
 function arrayBufferToBase64(buffer: any) {
   var binary = "";
@@ -33,12 +33,11 @@ const Banner = () => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/banner`)
       .then((res) => {
-        console.log("res", res);
         setItems(res.data.data.reverse());
         setLoading(false);
       })
       .catch((err) => {
-        console.log("err", err);
+        toast.error(err.response.data.message);
         setLoading(false);
       });
   }, []);
