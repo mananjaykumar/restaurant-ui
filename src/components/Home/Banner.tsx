@@ -89,7 +89,7 @@ function Item(props: any) {
         sm={12}
         md={6}
         sx={{
-          padding = "1.5rem",
+          padding: "1.5rem",
         }}
       >
         <Box
