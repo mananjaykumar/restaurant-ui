@@ -190,7 +190,11 @@ function TopAppBar() {
                         key={item.name}
                         onClick={(e) => {
                           if (index === MenuData.length - 1) {
-                            handleOpenUserMenu(e);
+                            if (userData?.token) {
+                              handleOpenUserMenu(e);
+                            } else {
+                              setShowLoginDrawer(true);
+                            }
                           } else {
                             navigate(item.to);
                           }
