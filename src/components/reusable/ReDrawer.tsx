@@ -32,13 +32,13 @@ export const ReDrawer = (props: IDrawer) => {
       onClose={handleClose}
       className={classes.backdrop}
       elevation={0}
-      sx={{ width: { xs: "320px", sm: width || "320px" } }}
+      sx={{ width: { xs: "340px", sm: width || "320px" } }}
       // PaperProps={{ style: { top: 82 } }}
     >
       <Grid
         container
         rowSpacing={3}
-        sx={{ width: { xs: "320px", sm: width || "320px" }, p: "20px" }}
+        sx={{ width: { xs: "340px", sm: width || "320px" }, p: "20px" }}
       >
         <Grid item>
           <CloseIcon
