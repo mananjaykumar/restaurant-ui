@@ -22,10 +22,10 @@ const Banner = () => {
       sx={{
         marginLeft: {
           sm: "calc(10% + 36px)",
-          xs: "calc(10% + 6px)",
+          xs: "calc(2%)",
         },
         marginRight: {
-          sm: "calc(2%)",
+          sm: "calc(10% + 36px)",
           xs: "calc(2%)",
         },
       }}
