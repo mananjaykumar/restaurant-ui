@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 
 const Banner = () => {
@@ -20,8 +20,14 @@ const Banner = () => {
   return (
     <Carousel
       sx={{
-        marginLeft: "calc(10% + 36px)",
-        marginRight: "calc(10% + 36px)",
+        marginLeft: {
+          sm: "calc(10% + 36px)",
+          xs: "calc(10% + 6px)",
+        },
+        marginRight: {
+          sm: "calc(10% + 36px)",
+          xs: "calc(10% + 6px)",
+        },
       }}
     >
       {items.map((item, i) => (
@@ -46,10 +52,13 @@ function Item(props: any) {
         item
         sm={12}
         md={6}
-        padding="1.5rem 0 0 1.5rem"
+        // padding="1.5rem 0 0 1.5rem"
         gap="1rem"
         justifyContent="space-between"
         width="fullWidth"
+        sx={{
+          padding: { sm: "1.5rem", xs: "1.5rem 1.5rem 0 1.5rem" },
+        }}
       >
         <Typography
           fontSize="2rem"
@@ -75,7 +84,7 @@ function Item(props: any) {
           consequat eu, quam etiam at quis ut convalliss.
         </Typography>
       </Grid>
-      <Grid item sm={12} md={6} padding="1.5rem 0 0 1.5rem">
+      <Grid item sm={12} md={6} padding="1.5rem">
         <Box
           maxWidth="100%"
           display="block"
