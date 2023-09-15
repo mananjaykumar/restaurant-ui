@@ -4,12 +4,12 @@ import Carousel from "react-material-ui-carousel";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-function arrayBufferToBase64(buffer: any) {
-  var binary = "";
-  var bytes = [].slice.call(new Uint8Array(buffer));
-  bytes.forEach((b) => (binary += String.fromCharCode(b)));
-  return window.btoa(binary);
-}
+// function arrayBufferToBase64(buffer: any) {
+//   var binary = "";
+//   var bytes = [].slice.call(new Uint8Array(buffer));
+//   bytes.forEach((b) => (binary += String.fromCharCode(b)));
+//   return window.btoa(binary);
+// }
 
 const Banner = () => {
   const [loading, setLoading] = React.useState(true);
@@ -131,7 +131,7 @@ function Item(props: any) {
           component={"img"}
           // src={props.item.image}
           src={`data:image/${props.item.img.contentType};base64,
-          ${arrayBufferToBase64(props.item.img.data.data)}`}
+          ${props.item.img.data}`}
         ></Box>
       </Grid>
     </Grid>
