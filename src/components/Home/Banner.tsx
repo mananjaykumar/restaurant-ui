@@ -34,6 +34,7 @@ const Banner = () => {
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/banner`)
       .then((res) => {
         setItems(res.data.data.reverse());
+        // setItems([]);
         setLoading(false);
       })
       .catch((err) => {
@@ -45,6 +46,7 @@ const Banner = () => {
   if (loading) {
     return <>Loding...</>;
   }
+  console.log("items", items);
   return (
     <Carousel
       sx={{
@@ -58,14 +60,20 @@ const Banner = () => {
         },
       }}
     >
-      {items.map((item, i) => (
-        <Item key={i} item={item} />
-      ))}
+      {items.length > 0
+        ? items.map((item, i) => (
+            <Item key={i} item={item} defaultItems={false} />
+          ))
+        : [1].map((item, i) => (
+            <Item key={i} item={item} defaultItems={true} />
+          ))}
     </Carousel>
   );
 };
 
 function Item(props: any) {
+  const { defaultItems, item } = props;
+  console.log("defaultItems: " + defaultItems);
   return (
     <Grid
       // key={index}
@@ -100,10 +108,13 @@ function Item(props: any) {
               sm: 25,
               xs: 20,
             },
+            textAlign: {
+              xs: defaultItems ? "center" : "left",
+            },
           }}
         >
           {/* 50% Off On Your First Order */}
-          {props.item.title}
+          {defaultItems ? "No Items to display" : item.title}
         </Typography>
         <Typography
           fontWeight="400"
@@ -112,7 +123,9 @@ function Item(props: any) {
         >
           {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis
           consequat eu, quam etiam at quis ut convalliss. */}
-          {props.item.description}
+          {defaultItems
+            ? "Please add items from Admin Portal"
+            : item.description}
         </Typography>
       </Grid>
       <Grid
@@ -130,8 +143,12 @@ function Item(props: any) {
           marginRight="auto"
           component={"img"}
           // src={props.item.image}
-          src={`data:image/${props.item.img.contentType};base64,
-          ${props.item.img.data}`}
+          src={
+            defaultItems
+              ? "https://app.lssquare.com/static/media/empty_product_banner.c076afe7.png"
+              : `data:image/${item.img.contentType};base64,
+          ${item.img.data}`
+          }
         ></Box>
       </Grid>
     </Grid>
