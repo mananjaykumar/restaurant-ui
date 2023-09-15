@@ -1,22 +1,51 @@
 import React from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
+import axios from "axios";
+// import { imagefrombuffer } from "imagefrombuffer";
+
+function arrayBufferToBase64(buffer: any) {
+  var binary = "";
+  var bytes = [].slice.call(new Uint8Array(buffer));
+  bytes.forEach((b) => (binary += String.fromCharCode(b)));
+  return window.btoa(binary);
+}
 
 const Banner = () => {
-  const items = [
-    {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!",
-      image:
-        "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_850,h_504/rng/md/carousel/production/b4178cc2ecc1ccb1f6b2b0638f609f0f",
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!",
-      image:
-        "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_850,h_504/rng/md/carousel/production/345b2c3e5d0064046c07b0fe01de8e66",
-    },
-  ];
+  const [loading, setLoading] = React.useState(true);
+  const [items, setItems] = React.useState([]);
+  // const items = [
+  //   {
+  //     name: "Random Name #1",
+  //     description: "Probably the most random thing you have ever seen!",
+  //     image:
+  //       "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_850,h_504/rng/md/carousel/production/b4178cc2ecc1ccb1f6b2b0638f609f0f",
+  //   },
+  //   {
+  //     name: "Random Name #2",
+  //     description: "Hello World!",
+  //     image:
+  //       "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_850,h_504/rng/md/carousel/production/345b2c3e5d0064046c07b0fe01de8e66",
+  //   },
+  // ];
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/banner`)
+      .then((res) => {
+        console.log("res", res);
+        setItems(res.data.data.reverse());
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log("err", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <>Loding...</>;
+  }
   return (
     <Carousel
       sx={{
@@ -49,6 +78,7 @@ function Item(props: any) {
     >
       <Grid
         container
+        direction="column"
         item
         sm={12}
         md={6}
@@ -73,15 +103,17 @@ function Item(props: any) {
             },
           }}
         >
-          50% Off For Your First Order
+          {/* 50% Off On Your First Order */}
+          {props.item.title}
         </Typography>
         <Typography
           fontWeight="400"
           color="#0F3460"
           sx={{ display: { xs: "none", sm: "flex" } }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis
-          consequat eu, quam etiam at quis ut convalliss.
+          {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis
+          consequat eu, quam etiam at quis ut convalliss. */}
+          {props.item.description}
         </Typography>
       </Grid>
       <Grid
@@ -98,7 +130,9 @@ function Item(props: any) {
           marginLeft="auto"
           marginRight="auto"
           component={"img"}
-          src={props.item.image}
+          // src={props.item.image}
+          src={`data:image/${props.item.img.contentType};base64,
+          ${arrayBufferToBase64(props.item.img.data.data)}`}
         ></Box>
       </Grid>
     </Grid>
