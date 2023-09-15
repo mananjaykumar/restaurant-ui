@@ -57,7 +57,8 @@ function Item(props: any) {
         justifyContent="space-between"
         width="fullWidth"
         sx={{
-          padding: { sm: "1.5rem", xs: "1.5rem 1.5rem 0 1.5rem" },
+          // padding: { sm: "1.5rem", xs: "1.5rem 1.5rem 0 1.5rem" },
+          padding: { sm: "1.5rem" },
         }}
       >
         <Typography
@@ -84,7 +85,16 @@ function Item(props: any) {
           consequat eu, quam etiam at quis ut convalliss.
         </Typography>
       </Grid>
-      <Grid item sm={12} md={6} padding="1.5rem">
+      <Grid
+        item
+        sm={12}
+        md={6}
+        sx={
+          {
+            // padding = "1.5rem",
+          }
+        }
+      >
         <Box
           maxWidth="100%"
           display="block"
