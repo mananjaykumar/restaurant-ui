@@ -6,7 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@mui/material/styles";
 import store from "./store";
+import theme from "./theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,10 +16,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <Toaster />
-        <App />
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <Toaster />
+          <App />
+        </Provider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

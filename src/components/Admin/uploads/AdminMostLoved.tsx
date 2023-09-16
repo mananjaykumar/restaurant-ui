@@ -5,12 +5,6 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-interface BannerState {
-  title: string;
-  description: string;
-  selectedFile: File | null;
-}
-
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -23,11 +17,14 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const Admin = () => {
+const AdminMostLoved = () => {
   const [loading, setLoading] = React.useState(false);
-  const [bannerState, setBannerState] = React.useState({
+  const [mostLovedState, setMostLovedState] = React.useState({
     title: "",
-    description: "",
+    originalPrice: "",
+    discountedPrice: "",
+    rating: "",
+    discount: "",
     selectedFile: {
       name: "",
     },
@@ -38,11 +35,14 @@ const Admin = () => {
     setLoading(true);
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/admin/upload-banner`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/admin/uploads/most-loved`,
         {
-          title: bannerState.title,
-          description: bannerState.description,
-          banner: bannerState.selectedFile,
+          title: mostLovedState.title,
+          originalPrice: mostLovedState.originalPrice,
+          discountedPrice: mostLovedState.discountedPrice,
+          rating: mostLovedState.rating,
+          discount: mostLovedState.discount,
+          mostLoved: mostLovedState.selectedFile,
         },
         {
           headers: {
@@ -53,9 +53,12 @@ const Admin = () => {
       .then((res) => {
         console.log("res", res);
         toast.success(res.data.message);
-        setBannerState({
+        setMostLovedState({
           title: "",
-          description: "",
+          originalPrice: "",
+          discountedPrice: "",
+          rating: "",
+          discount: "",
           selectedFile: {
             name: "",
           },
@@ -89,8 +92,8 @@ const Admin = () => {
         }}
       >
         <Stack>
-          <Typography variant="h4" fontFamily="Basis Grotesque Pro">
-            Upload Banner
+          <Typography fontFamily="Basis Grotesque Pro" fontSize="25px">
+            Upload Most Loved Items
           </Typography>
         </Stack>
         <Stack sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -98,9 +101,9 @@ const Admin = () => {
             autoFocus
             variant="outlined"
             label="Title*"
-            value={bannerState.title}
+            value={mostLovedState.title}
             onChange={(e) => {
-              setBannerState((prev) => {
+              setMostLovedState((prev: any) => {
                 return {
                   ...prev,
                   title: e.target.value,
@@ -110,17 +113,61 @@ const Admin = () => {
           />
           <TextField
             variant="outlined"
-            label="Description*"
-            value={bannerState.description}
+            label="Original Price*"
+            type="Number"
+            value={mostLovedState.originalPrice}
             onChange={(e) => {
-              setBannerState((prev) => {
+              setMostLovedState((prev: any) => {
                 return {
                   ...prev,
-                  description: e.target.value,
+                  originalPrice: e.target.value,
                 };
               });
             }}
           />
+          <TextField
+            variant="outlined"
+            label="Discounted Price*"
+            type="Number"
+            value={mostLovedState.discountedPrice}
+            onChange={(e) => {
+              setMostLovedState((prev: any) => {
+                return {
+                  ...prev,
+                  discountedPrice: e.target.value,
+                };
+              });
+            }}
+          />
+          <TextField
+            variant="outlined"
+            label="Rating*"
+            type="Number"
+            value={mostLovedState.rating}
+            onChange={(e) => {
+              setMostLovedState((prev: any) => {
+                return {
+                  ...prev,
+                  rating: e.target.value,
+                };
+              });
+            }}
+          />
+          <TextField
+            variant="outlined"
+            label="Discount*"
+            type="Number"
+            value={mostLovedState.discount}
+            onChange={(e) => {
+              setMostLovedState((prev: any) => {
+                return {
+                  ...prev,
+                  discount: e.target.value,
+                };
+              });
+            }}
+          />
+
           <Stack direction="row" alignItems="center" gap="0.5rem">
             <Button
               component="label"
@@ -134,7 +181,7 @@ const Admin = () => {
                 name="photo"
                 accept={acceptedFiles.join(",")}
                 onChange={(event) => {
-                  setBannerState((prev: any) => {
+                  setMostLovedState((prev: any) => {
                     return {
                       ...prev,
                       selectedFile: event.target.files && event.target.files[0],
@@ -143,8 +190,8 @@ const Admin = () => {
                 }}
               />
             </Button>
-            {bannerState.selectedFile && (
-              <Typography>{bannerState?.selectedFile?.name}</Typography>
+            {mostLovedState.selectedFile && (
+              <Typography>{mostLovedState?.selectedFile?.name}</Typography>
             )}
           </Stack>
         </Stack>
@@ -170,4 +217,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminMostLoved;

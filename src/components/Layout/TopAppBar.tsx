@@ -105,7 +105,7 @@ function TopAppBar() {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       sx={{
         boxShadow: "0 15px 40px -20px rgba(40,44,63,.15)",
         backgroundColor: "#fff",

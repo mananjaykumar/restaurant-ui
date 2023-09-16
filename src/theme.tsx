@@ -42,7 +42,7 @@ const theme: Theme = createTheme({
       light: "#FFEFEF",
     },
     warning: {
-      main: "#FFA224",
+      main: "#FC8019",
       light: "#FDF8EB",
     },
     info: {
