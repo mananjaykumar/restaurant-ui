@@ -178,6 +178,15 @@ const theme: Theme = createTheme({
         },
       },
     },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          maxWidth: "calc(100% - 12px)",
+          width: "150px",
+          xs: { top: "55px" },
+        },
+      },
+    },
   },
 });
 export default theme;

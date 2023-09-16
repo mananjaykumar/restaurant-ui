@@ -53,7 +53,6 @@ const CustomCard = ({ item, index }: ICustomCard) => {
   //     quantity = product.quantity;
   //   }
   //   const isLiked = userData?.wishlist?.find((p) => p === item._id) || false;
-  console.log("item", item);
 
   return (
     <Card

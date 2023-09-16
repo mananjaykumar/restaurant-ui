@@ -21,9 +21,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
 import PersonIcon from "@mui/icons-material/Person";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { useNavigate } from "react-router-dom";
 import { ReDrawer } from "../reusable/ReDrawer";
 import Login from "../Auth/Login";
@@ -31,6 +33,7 @@ import SignUp from "../Auth/SignUp";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/slices/AuthSlice";
 import toast from "react-hot-toast";
+import { toggleLoginDrawer } from "../../store/slices/TogglerSlice";
 
 // const pages = ["Products", "Pricing", "Blog"];
 
@@ -38,7 +41,10 @@ function TopAppBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData } = useSelector((state: any) => state.auth);
-  const [showLoginDrawer, setShowLoginDrawer] = React.useState(false);
+  const { defaultLoginData } = useSelector((state: any) => state.toggle);
+  const [showLoginDrawer, setShowLoginDrawer] = React.useState(
+    defaultLoginData.drawerOpen
+  );
   const [showSignUpDrawer, setShowSignUpDrawer] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -60,7 +66,11 @@ function TopAppBar() {
     },
     {
       name: userData?.token ? "Account" : "Sign In",
-      icon: <PersonOutlineOutlinedIcon />,
+      icon: userData?.token ? (
+        <ManageAccountsOutlinedIcon />
+      ) : (
+        <PersonOutlineOutlinedIcon />
+      ),
       to: "/account",
     },
   ];
@@ -68,17 +78,17 @@ function TopAppBar() {
   const settings = [
     {
       name: "Profile",
-      icon: <PersonIcon />,
+      icon: <PersonOutlineOutlinedIcon />,
       to: "/profile",
     },
     {
       name: "Orders",
-      icon: <LabelImportantIcon />,
+      icon: <ShoppingBagOutlinedIcon />,
       to: "/profile",
     },
     {
       name: "Cart",
-      icon: <ShoppingCartIcon />,
+      icon: <ShoppingCartOutlinedIcon />,
       to: "/profile",
     },
     {
@@ -256,7 +266,11 @@ function TopAppBar() {
                 <Menu
                   sx={{
                     mt: "45px",
-                    "& .MuiPaper-root": { xs: { top: "35px" } },
+                    // "& .MuiMenu-paper": {
+                    //   maxWidth: "calc(100% - 12px)",
+                    //   width: "150px",
+                    //   xs: { top: "55px" },
+                    // },
                   }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
@@ -333,7 +347,10 @@ function TopAppBar() {
       </Container>
       <ReDrawer
         open={showLoginDrawer}
-        handleClose={() => setShowLoginDrawer(false)}
+        handleClose={() => {
+          setShowLoginDrawer(false);
+          dispatch(toggleLoginDrawer({ open: false }));
+        }}
         title="Login"
         width="420px"
         subHeaderComponent={

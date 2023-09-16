@@ -4,6 +4,8 @@ import { login } from "../../store/slices/AuthSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { toggleLoginDrawer } from "../../store/slices/TogglerSlice";
 
 interface ILogin {
   setShowLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +13,7 @@ interface ILogin {
 
 const Login = (props: ILogin) => {
   const dispatch = useDispatch();
+  const { defaultLoginData } = useSelector((state: any) => state.toggle);
   const { setShowLoginDrawer } = props;
   const [loginState, setLoginState] = React.useState({
     phone: "",
@@ -55,12 +58,19 @@ const Login = (props: ILogin) => {
         toast.success(res.data.message);
         setShowLoginDrawer(false);
         dispatch(login({ userInfo: res?.data }));
+        dispatch(toggleLoginDrawer({ open: false }));
       })
       .catch((err) => {
         setLoading(false);
         toast.error(err.response.data.message);
       });
   };
+
+  React.useState(() => {
+    if (defaultLoginData.drawerOpen) {
+      toast.error("Please Log In First!");
+    }
+  });
   return (
     <Stack width="100%">
       <Stack mt={4} gap={2}>

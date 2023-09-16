@@ -12,11 +12,13 @@ interface userDataType {
 
 interface AuthState {
   userData: userDataType | null;
+  AdminData: userDataType | null;
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
   userData: JSON.parse(localStorage.getItem("userData") || "{}") || null,
+  AdminData: JSON.parse(localStorage.getItem("AdminData") || "{}") || null,
 };
 
 const authSlice = createSlice({
@@ -45,6 +47,7 @@ const authSlice = createSlice({
   //     },
   //   },
   reducers: {
+    // For Users
     //Reducer function to login
     login: (state, action) => {
       localStorage.setItem("userData", JSON.stringify(action.payload.userInfo));
@@ -57,9 +60,26 @@ const authSlice = createSlice({
       state.userData = null;
       localStorage.removeItem("userData");
     },
+
+    // For Admin
+    //Reducer function to login
+    AdminLogin: (state, action) => {
+      localStorage.setItem(
+        "AdminData",
+        JSON.stringify(action.payload.adminInfo)
+      );
+      state.AdminData = action.payload.adminInfo;
+      // console.log('state', state);
+      // console.log('action', action);
+    },
+    //Reducer function to logout
+    AdminLogout: (state) => {
+      state.AdminData = null;
+      localStorage.removeItem("AdminData");
+    },
   },
 });
 
 export default authSlice.reducer;
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, AdminLogin, AdminLogout } = authSlice.actions;

@@ -12,38 +12,141 @@ import { NoMatch } from "./pages/NoMatch";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
 import LoginFirst from "./pages/LoginFirst";
+import Protected from "./routes/Protected";
+
+interface Props {
+  children: React.ReactNode;
+}
+const HOC = ({ children }: Props) => {
+  return (
+    <>
+      <TopAppBar />
+      {children}
+    </>
+  );
+};
 
 function App() {
-  const { userData } = useSelector((state: any) => state.auth);
+  const { userData, AdminData } = useSelector((state: any) => state.auth);
   return (
     <div style={{ display: "flex" }}>
       {/* <Sidebar /> */}
       <div style={{ flex: 1 }}>
-        <TopAppBar />
+        {/* <TopAppBar /> */}
         <Stack mt="130px">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin/uploads/banner" element={<AdminBanner />} />
+            <Route
+              path="/"
+              element={
+                <HOC>
+                  <Home />
+                </HOC>
+              }
+            />
+            <Route path="/admin" element={<>Admin Login</>} />
+            <Route
+              element={
+                <Protected
+                  redirectPath="/"
+                  isAllowed={userData?.token ? true : false}
+                />
+              }
+            >
+              <Route
+                path="/dashboard"
+                element={
+                  <HOC>
+                    <Dashboard />
+                  </HOC>
+                }
+              />
+              <Route
+                path="/users"
+                element={
+                  <HOC>
+                    <Users />
+                  </HOC>
+                }
+              />
+            </Route>
+
+            <Route
+              element={<Protected redirectPath="/admin" isAllowed={false} />}
+            >
+              <Route
+                path="/admin/uploads/most-loved"
+                element={<AdminMostLoved />}
+              />
+              <Route path="/admin/uploads/banner" element={<AdminBanner />} />
+            </Route>
+            <Route
+              path="*"
+              element={
+                <HOC>
+                  <NoMatch />
+                </HOC>
+              }
+            />
+
+            {/* <Route
+              path="/"
+              element={
+                <HOC>
+                  <Home />
+                </HOC>
+              }
+            />
             <Route
               path="/admin/uploads/most-loved"
               element={<AdminMostLoved />}
             />
             {userData?.token ? (
               <>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/users" element={<Users />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <HOC>
+                      <Dashboard />
+                    </HOC>
+                  }
+                />
+                <Route
+                  path="/users"
+                  element={
+                    <HOC>
+                      <Users />
+                    </HOC>
+                  }
+                />
               </>
             ) : (
               <Route
                 path="*"
                 element={
-                  <LoginFirst>
-                    <Home />
-                  </LoginFirst>
+                  <HOC>
+                    <LoginFirst>
+                      <Home />
+                    </LoginFirst>
+                  </HOC>
                 }
               />
             )}
-            <Route path="*" element={<NoMatch />} />
+
+            {userData?.token && AdminData?.token ? (
+              <Route path="/admin/uploads/banner" element={<AdminBanner />} />
+            ) : (
+              userData?.token && (
+                <Route path="*" element={<>Admin Login First</>} />
+              )
+            )}
+            <Route
+              path="*"
+              element={
+                <HOC>
+                  <NoMatch />
+                </HOC>
+              }
+            /> */}
           </Routes>
         </Stack>
       </div>
