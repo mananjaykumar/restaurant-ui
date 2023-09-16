@@ -140,7 +140,9 @@ function Item(props: any) {
           marginLeft="auto"
           marginRight="auto"
           component={"img"}
-          height="250px"
+          sx={{
+            height: { xs: "200px", sm: "250px" },
+          }}
           // src={props.item.image}
           src={
             defaultItems

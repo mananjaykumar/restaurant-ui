@@ -11,6 +11,7 @@ import AdminMostLoved from "./components/Admin/uploads/AdminMostLoved";
 import { NoMatch } from "./pages/NoMatch";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
+import LoginFirst from "./pages/LoginFirst";
 
 function App() {
   const { userData } = useSelector((state: any) => state.auth);
@@ -33,7 +34,14 @@ function App() {
                 <Route path="/users" element={<Users />} />
               </>
             ) : (
-              <Route path="*" element={<Home />} />
+              <Route
+                path="*"
+                element={
+                  <LoginFirst>
+                    <Home />
+                  </LoginFirst>
+                }
+              />
             )}
             <Route path="*" element={<NoMatch />} />
           </Routes>
