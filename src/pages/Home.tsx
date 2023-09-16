@@ -13,7 +13,6 @@ const Home = () => {
     >
       <Banner />
       <MostLoved />
-      <Stack sx={{ height: "100vh" }}></Stack>
     </Stack>
   );
 };
