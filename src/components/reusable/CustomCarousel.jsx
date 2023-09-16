@@ -1,4 +1,4 @@
-import { Button, styled, Stack } from "@mui/material";
+import { Button, styled, Stack, Skeleton } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -35,7 +35,14 @@ const RoundedButton = styled(ButtonPropsModified)(
   })
 );
 
-const CustomCarousel = ({ items, breakPoints, children }) => {
+const CustomCarousel = ({
+  items,
+  breakPoints,
+  loading,
+  skeletonH,
+  skeletonW,
+  children,
+}) => {
   return (
     <Stack>
       <Carousel
@@ -49,11 +56,21 @@ const CustomCarousel = ({ items, breakPoints, children }) => {
         itemPadding={[15]}
         sx={{ position: "relative" }}
       >
-        {items.map((item, i) => (
-          <React.Fragment key={i}>
-            {React.cloneElement(children, { item })}
-          </React.Fragment>
-        ))}
+        {loading
+          ? [1, 2, 3, 4].map((_, i) => (
+              <Skeleton
+                key={String(i)}
+                variant="rounded"
+                height={skeletonH}
+                width={skeletonW}
+                animation="wave"
+              />
+            ))
+          : items.map((item, i) => (
+              <React.Fragment key={i}>
+                {React.cloneElement(children, { item })}
+              </React.Fragment>
+            ))}
       </Carousel>
     </Stack>
   );

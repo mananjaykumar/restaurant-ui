@@ -170,9 +170,9 @@ const MostLoved = () => {
       });
   }, []);
 
-  if (loading) {
-    return <>Loding...</>;
-  }
+  // if (loading) {
+  //   return <>Loding...</>;
+  // }
   return (
     // <section className="flash-deals" style={{ margin: "3rem 0 0 0" }}>
     <Stack
@@ -191,7 +191,13 @@ const MostLoved = () => {
     >
       <SectionHeader title="Most Loved" Icon={FavoriteIcon} />
       <Box position="relative">
-        <CustomCarousel items={carouselItems} breakPoints={breakPoints}>
+        <CustomCarousel
+          items={carouselItems}
+          breakPoints={breakPoints}
+          loading={loading}
+          skeletonH={388}
+          skeletonW={248}
+        >
           <CustomCard />
         </CustomCarousel>
       </Box>

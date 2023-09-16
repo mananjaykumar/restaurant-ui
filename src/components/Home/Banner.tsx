@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, Stack, Skeleton } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -44,7 +44,33 @@ const Banner = () => {
   }, []);
 
   if (loading) {
-    return <>Loding...</>;
+    return (
+      <Stack
+        sx={{
+          marginLeft: {
+            sm: "calc(10% + 36px)",
+            // xs: "calc(2%)",
+          },
+          marginRight: {
+            sm: "calc(10% + 36px)",
+            // xs: "calc(2%)",
+          },
+          alignItems: "center",
+          padding: "10px 25px",
+          // height: "330px",
+          height: { xs: "220px", sm: "250px" },
+        }}
+      >
+        <Skeleton
+          variant="rounded"
+          animation="wave"
+          width="100%"
+          height="100%"
+          // width={1055}
+          // height={330}
+        />
+      </Stack>
+    );
   }
   return (
     <Carousel

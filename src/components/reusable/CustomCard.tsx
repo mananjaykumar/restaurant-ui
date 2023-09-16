@@ -91,6 +91,7 @@ const CustomCard = ({ item, index }: ICustomCard) => {
       </Grid>
       <Link to={`/product/${item._id}`}>
         <CardMedia
+          sx={{ height: "225px" }}
           component="img"
           // src={item.imgSrc}
           src={`data:image/${item.img.contentType};base64,
