@@ -13,6 +13,8 @@ import Home from "./pages/Home";
 import { useSelector } from "react-redux";
 import LoginFirst from "./pages/LoginFirst";
 import Protected from "./routes/Protected";
+import Admin from "./components/Admin";
+import NewSidebarMain from "./components/Admin/AdminLayout/Sidebar";
 
 interface Props {
   children: React.ReactNode;
@@ -21,6 +23,14 @@ const HOC = ({ children }: Props) => {
   return (
     <>
       <TopAppBar />
+      {children}
+    </>
+  );
+};
+const HOCAdmin = ({ children }: Props) => {
+  return (
+    <>
+      <NewSidebarMain />
       {children}
     </>
   );
@@ -43,12 +53,15 @@ function App() {
                 </HOC>
               }
             />
-            <Route path="/admin" element={<>Admin Login</>} />
+            <Route path="/admin" element={<Admin />} />
             <Route
               element={
                 <Protected
                   redirectPath="/"
-                  isAllowed={userData?.token ? true : false}
+                  isAllowed={
+                    (userData?.token ? true : false) &&
+                    (userData?.role?.includes("user") ? true : false)
+                  }
                 />
               }
             >
@@ -71,13 +84,32 @@ function App() {
             </Route>
 
             <Route
-              element={<Protected redirectPath="/admin" isAllowed={false} />}
+              element={
+                <Protected
+                  redirectPath="/admin"
+                  isAllowed={
+                    (userData?.token ? true : false) &&
+                    (userData?.role?.includes("admin") ? true : false)
+                  }
+                />
+              }
             >
               <Route
-                path="/admin/uploads/most-loved"
-                element={<AdminMostLoved />}
+                path="/admin/uploads/banner"
+                element={
+                  <HOCAdmin>
+                    <AdminBanner />
+                  </HOCAdmin>
+                }
               />
-              <Route path="/admin/uploads/banner" element={<AdminBanner />} />
+              <Route
+                path="/admin/uploads/most-loved"
+                element={
+                  <HOCAdmin>
+                    <AdminMostLoved />
+                  </HOCAdmin>
+                }
+              />
             </Route>
             <Route
               path="*"

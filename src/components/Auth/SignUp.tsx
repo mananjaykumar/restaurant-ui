@@ -17,7 +17,7 @@ const SignUp = (props: ISignUp) => {
     name: "",
     email: "",
     otp: "",
-    user_id: "",
+    _id: "",
   });
   const [otpSent, setOtpSent] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -31,18 +31,23 @@ const SignUp = (props: ISignUp) => {
         email: signUpState.email,
       })
       .then((res) => {
-        setSignUpState((prev: any) => {
-          return {
-            ...prev,
-            user_id: res.data.user_id,
-          };
-        });
-        setOtpSent(true);
-        toast.success(res.data.message);
+        if (res?.data?.message === "User access has been granted") {
+          dispatch(login({ userInfo: res?.data?.data }));
+          setShowSignUpDrawer(false);
+        } else {
+          setSignUpState((prev: any) => {
+            return {
+              ...prev,
+              _id: res?.data?.data._id,
+            };
+          });
+          setOtpSent(true);
+        }
+        toast.success(res?.data?.message);
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
         setLoading(false);
       });
   };
@@ -51,19 +56,19 @@ const SignUp = (props: ISignUp) => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verify-otp`, {
         otp: signUpState.otp,
-        user_id: signUpState.user_id,
+        _id: signUpState._id,
       })
       .then((res) => {
         // setOtpSent(false);
         console.log("res", res);
         setLoading(false);
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setShowSignUpDrawer(false);
-        dispatch(login({ userInfo: res?.data }));
+        dispatch(login({ userInfo: res?.data?.data }));
       })
       .catch((err) => {
         setLoading(false);
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -74,7 +79,7 @@ const SignUp = (props: ISignUp) => {
           autoFocus
           variant="outlined"
           label="Phone Number*"
-          type="Number"
+          type="number"
           inputProps={{ maxLength: 10 }}
           disabled={otpSent}
           value={signUpState.phone}
@@ -136,7 +141,7 @@ const SignUp = (props: ISignUp) => {
           <TextField
             variant="outlined"
             label="OTP*"
-            type="Number"
+            type="number"
             value={signUpState.otp}
             onChange={(e) => {
               setSignUpState((prev: any) => {

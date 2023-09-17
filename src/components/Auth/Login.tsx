@@ -18,7 +18,7 @@ const Login = (props: ILogin) => {
   const [loginState, setLoginState] = React.useState({
     phone: "",
     otp: "",
-    user_id: "",
+    _id: "",
   });
   const [otpSent, setOtpSent] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -30,19 +30,24 @@ const Login = (props: ILogin) => {
         phone: loginState.phone,
       })
       .then((res) => {
-        setLoginState((prev: any) => {
-          return {
-            ...prev,
-            user_id: res.data.user_id,
-          };
-        });
-        setOtpSent(true);
-        toast.success(res.data.message);
+        if (res?.data?.message === "User access has been granted") {
+          dispatch(login({ userInfo: res?.data?.data }));
+          setShowLoginDrawer(false);
+        } else {
+          setLoginState((prev: any) => {
+            return {
+              ...prev,
+              _id: res?.data?.data?._id,
+            };
+          });
+          setOtpSent(true);
+        }
+        toast.success(res?.data?.message);
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
       });
   };
   const handleSubmit = () => {
@@ -50,19 +55,19 @@ const Login = (props: ILogin) => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verify-otp`, {
         otp: loginState.otp,
-        user_id: loginState.user_id,
+        _id: loginState._id,
       })
       .then((res) => {
         // setOtpSent(false);
         setLoading(false);
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setShowLoginDrawer(false);
-        dispatch(login({ userInfo: res?.data }));
+        dispatch(login({ userInfo: res?.data?.data }));
         dispatch(toggleLoginDrawer({ open: false }));
       })
       .catch((err) => {
         setLoading(false);
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
       });
   };
 

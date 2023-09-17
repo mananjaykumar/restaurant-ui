@@ -65,12 +65,16 @@ function TopAppBar() {
       to: "/help",
     },
     {
-      name: userData?.token ? "Account" : "Sign In",
-      icon: userData?.token ? (
-        <ManageAccountsOutlinedIcon />
-      ) : (
-        <PersonOutlineOutlinedIcon />
-      ),
+      name:
+        userData?.token && userData?.role?.includes("user")
+          ? "Account"
+          : "Sign In",
+      icon:
+        userData?.token && userData?.role?.includes("user") ? (
+          <ManageAccountsOutlinedIcon />
+        ) : (
+          <PersonOutlineOutlinedIcon />
+        ),
       to: "/account",
     },
   ];
@@ -200,7 +204,10 @@ function TopAppBar() {
                         key={item.name}
                         onClick={(e) => {
                           if (index === MenuData.length - 1) {
-                            if (userData?.token) {
+                            if (
+                              userData?.token &&
+                              userData?.role?.includes("user")
+                            ) {
                               handleOpenUserMenu(e);
                             } else {
                               setShowLoginDrawer(true);
@@ -248,7 +255,10 @@ function TopAppBar() {
                       // disableRipple
                       onClick={(e) => {
                         if (index === MenuData.length - 1) {
-                          if (userData?.token) {
+                          if (
+                            userData?.token &&
+                            userData?.role?.includes("user")
+                          ) {
                             handleOpenUserMenu(e);
                           } else {
                             setShowLoginDrawer(true);
@@ -374,7 +384,10 @@ function TopAppBar() {
 
       <ReDrawer
         open={showSignUpDrawer}
-        handleClose={() => setShowSignUpDrawer(false)}
+        handleClose={() => {
+          setShowSignUpDrawer(false);
+          dispatch(toggleLoginDrawer({ open: false }));
+        }}
         title="Sign Up"
         width="420px"
         subHeaderComponent={

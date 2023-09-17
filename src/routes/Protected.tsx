@@ -13,10 +13,10 @@ const Protected = ({ isAllowed, redirectPath = "/", children }: Props) => {
   const dispatch = useDispatch();
   if (!isAllowed) {
     if (redirectPath === "/") {
-      console.log("redirectPath", redirectPath === "/");
-      dispatch(toggleLoginDrawer({open: true}));
+      dispatch(toggleLoginDrawer({ open: true }));
       return <Navigate to={redirectPath} replace />;
     }
+    return <Navigate to={redirectPath} replace />;
   }
   return children ? children : <Outlet />;
 };
