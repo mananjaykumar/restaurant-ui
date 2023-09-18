@@ -85,7 +85,7 @@ const AdminMostLoved = () => {
     >
       <Stack
         sx={{
-          margin: { sm: "64px 192px", xs: "32px" },
+          margin: { sm: "0px 64px", xs: "0px 20px", md: "64px 192px" },
           display: "flex",
           flexDirection: "column",
           gap: "2.5rem",

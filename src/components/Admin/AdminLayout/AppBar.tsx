@@ -12,7 +12,7 @@ interface AppBarProps extends MuiAppBarProps {
 export const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
-  zIndex: -1,
+  zIndex: 1000,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -22,6 +22,7 @@ export const AppBar = styled(MuiAppBar, {
   padding: "20px",
   height: "90px",
   color: "#3d4152",
+  position: "fixed",
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,

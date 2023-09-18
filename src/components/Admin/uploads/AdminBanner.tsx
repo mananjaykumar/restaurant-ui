@@ -5,7 +5,6 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -77,7 +76,7 @@ const AdminBanner = () => {
     >
       <Stack
         sx={{
-          margin: { sm: "64px 192px", xs: "32px" },
+          margin: { sm: "0px 64px", xs: "0px 20px", md: "64px 192px" },
           display: "flex",
           flexDirection: "column",
           gap: "2.5rem",

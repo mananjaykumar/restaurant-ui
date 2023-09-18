@@ -1,16 +1,18 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from "react";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import {
+  Box,
+  List,
+  CssBaseline,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 // import classNames from "classnames";
 import { useNavigate, useLocation } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -50,7 +52,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(7)} + 5px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
@@ -314,7 +316,8 @@ const MenuButton = (props: any) => {
     handleItemClick,
     handleDrawerOpen,
   } = props;
-  console.log("item", item);
+
+  const location = useLocation();
   return (
     <Box sx={{ padding: "0px 12px" }}>
       <ListItem
@@ -324,6 +327,11 @@ const MenuButton = (props: any) => {
         sx={{ display: "block", marginTop: "5px" }}
       >
         <ListItemButton
+          selected={
+            item.collapsable
+              ? item.items.some((it: any) => location.pathname === it.link)
+              : location.pathname === item.link
+          }
           onClick={() => {
             if (item.collapsable) {
               if (!open) {
@@ -394,20 +402,47 @@ const MenuButton = (props: any) => {
 
       {item.collapsable && (
         <Collapse in={item.collapseOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          <List
+            component="div"
+            sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+          >
             {item.items.map((it: any, index: number) => (
               <ListItemButton
-                sx={{ pl: 4 }}
+                selected={location.pathname === it.link}
+                sx={{
+                  pl: 4,
+                  minHeight: 46,
+                  height: "8px",
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
                 key={it.label}
                 onClick={() => {
                   handleItemClick(it);
                 }}
               >
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                    // color: hovered
+                    //   ? theme.palette.primary.main
+                    //   : theme.palette.primary.main,
+                    "& .MuiSvgIcon-root": {
+                      maxWidth: "23px",
+                      maxHeight: "25px",
+                      // color: theme.palette.primary.main,
+                    },
+                  }}
+                >
                   {/* <StarBorder /> */}
                   {it.icon}
                 </ListItemIcon>
-                <ListItemText primary={it.label} />
+                {open && <ListItemText primary={it.label} />}
+                {/* <ListItemText primary={it.label} /> */}
               </ListItemButton>
             ))}
           </List>
@@ -490,6 +525,7 @@ export default function Sidebar({ children }: ISidebar) {
           "& .MuiPaper-root": {
             backgroundColor: theme.palette.background.paper,
             position: "absolute",
+            height: "100vh",
           },
         }}
       >
@@ -793,23 +829,23 @@ export default function Sidebar({ children }: ISidebar) {
                     height: "10px",
                     borderRadius: "5px",
                     color: theme.palette.text.primary,
-                    "&.Mui-selected": {
-                      backgroundColor: theme.palette.primary.light,
-                      "&:hover": {
-                        backgroundColor: `${theme.palette.primary.hover} !important`,
-                      },
-                      ...(open &&
-                        location.pathname !== navLinks.R_SETTINGS && {
-                          color: theme.palette.primary.light,
-                        }),
-                    },
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.hover,
-                      color: theme.palette.text.primary,
-                    },
-                    ...(location.pathname === navLinks.R_SETTINGS && {
-                      color: theme.palette.primary.main,
-                    }),
+                    // "&.Mui-selected": {
+                    //   backgroundColor: theme.palette.primary.light,
+                    //   "&:hover": {
+                    //     backgroundColor: `${theme.palette.primary.hover} !important`,
+                    //   },
+                    //   ...(open &&
+                    //     location.pathname !== navLinks.R_SETTINGS && {
+                    //       color: theme.palette.primary.light,
+                    //     }),
+                    // },
+                    // "&:hover": {
+                    //   backgroundColor: theme.palette.primary.hover,
+                    //   color: theme.palette.text.primary,
+                    // },
+                    // ...(location.pathname === navLinks.R_SETTINGS && {
+                    //   color: theme.palette.primary.main,
+                    // }),
                   }}
                 >
                   <ListItemIcon
@@ -876,7 +912,19 @@ export default function Sidebar({ children }: ISidebar) {
           </List>
         </Stack>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          marginTop: "-25px",
+          height: {
+            xs: "450px",
+            sm: "450px",
+            md: "600px",
+          },
+          overflow: "auto",
+        }}
+      >
         {/* <DrawerHeader /> */}
         {/* <MainLayout /> */}
         {children}
