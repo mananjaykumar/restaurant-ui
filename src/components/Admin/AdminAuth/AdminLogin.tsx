@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, TextField, Button } from "@mui/material";
+import { Stack, TextField, Button, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/slices/AuthSlice";
 import axios from "axios";
@@ -54,51 +54,86 @@ const AdminLogin = () => {
       });
   };
   return (
-    <Grid container direction="row">
-      <Grid item>
-        <TextField
-          autoFocus
-          variant="outlined"
-          type="number"
-          label="Phone Number"
-          disabled={otpSent}
-          value={adminLoginState.phone}
-          onChange={(e) => {
-            setAdminLoginState((prev: any) => {
-              return {
-                ...prev,
-                phone: e.target.value,
-              };
-            });
-          }}
-        />
-        {otpSent && (
+    <Stack
+      sx={{
+        marginLeft: {
+          sm: "calc(10% + 36px)",
+          // xs: "calc(2%)",
+        },
+        marginRight: {
+          sm: "calc(10% + 36px)",
+          // xs: "calc(2%)",
+        },
+      }}
+    >
+      <Stack
+        gap={2}
+        sx={{
+          padding: { xs: "30px", sm: "50px", md: "50px 300px" },
+        }}
+      >
+        <Stack>
+          <Typography fontSize="24px">Welcome to Admin Portal</Typography>
+        </Stack>
+        <Stack gap={2}>
           <TextField
+            autoFocus
             variant="outlined"
             type="number"
-            label="OTP"
-            value={adminLoginState.otp}
+            label="Phone Number"
+            disabled={otpSent}
+            value={adminLoginState.phone}
             onChange={(e) => {
               setAdminLoginState((prev: any) => {
                 return {
                   ...prev,
-                  otp: e.target.value,
+                  phone: e.target.value,
                 };
               });
             }}
           />
-        )}
-        {otpSent ? (
-          <Button variant="contained" disabled={loading} onClick={handleSubmit}>
-            {loading ? "Loading..." : "Submit"}
-          </Button>
-        ) : (
-          <Button variant="contained" disabled={loading} onClick={handleLogin}>
-            {loading ? "Loading..." : "Login"}
-          </Button>
-        )}
-      </Grid>
-    </Grid>
+          {otpSent && (
+            <TextField
+              variant="outlined"
+              type="number"
+              label="OTP"
+              value={adminLoginState.otp}
+              onChange={(e) => {
+                setAdminLoginState((prev: any) => {
+                  return {
+                    ...prev,
+                    otp: e.target.value,
+                  };
+                });
+              }}
+            />
+          )}
+          {otpSent ? (
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={handleSubmit}
+              sx={{
+                width: "fit-content",
+              }}
+            >
+              {loading ? "Loading..." : "Submit"}
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              disabled={loading}
+              onClick={handleLogin}
+              sx={{
+                width: "fit-content",
+              }}
+            >
+              {loading ? "Loading..." : "Login"}
+            </Button>
+          )}
+        </Stack>
+      </Stack>
+    </Stack>
   );
 };
 
