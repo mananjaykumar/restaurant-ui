@@ -83,6 +83,7 @@ const Login = (props: ILogin) => {
           autoFocus
           variant="outlined"
           label="Phone Number*"
+          type="number"
           disabled={otpSent}
           value={loginState.phone}
           onChange={(e) => {
@@ -99,6 +100,7 @@ const Login = (props: ILogin) => {
             autoFocus
             variant="outlined"
             label="OTP*"
+            type="number"
             value={loginState.otp}
             onChange={(e) => {
               setLoginState((prev) => {
