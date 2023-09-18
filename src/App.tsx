@@ -11,7 +11,6 @@ import AdminMostLoved from "./components/Admin/uploads/AdminMostLoved";
 import { NoMatch } from "./pages/NoMatch";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
-import LoginFirst from "./pages/LoginFirst";
 import Protected from "./routes/Protected";
 import Admin from "./components/Admin";
 import NewSidebarMain from "./components/Admin/AdminLayout/Sidebar";
@@ -30,14 +29,13 @@ const HOC = ({ children }: Props) => {
 const HOCAdmin = ({ children }: Props) => {
   return (
     <>
-      <NewSidebarMain />
-      {children}
+      <NewSidebarMain>{children}</NewSidebarMain>
     </>
   );
 };
 
 function App() {
-  const { userData, AdminData } = useSelector((state: any) => state.auth);
+  const { userData } = useSelector((state: any) => state.auth);
   return (
     <div style={{ display: "flex" }}>
       {/* <Sidebar /> */}
@@ -107,6 +105,14 @@ function App() {
                 element={
                   <HOCAdmin>
                     <AdminMostLoved />
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <HOCAdmin>
+                    <NoMatch />
                   </HOCAdmin>
                 }
               />

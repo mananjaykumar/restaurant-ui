@@ -8,8 +8,7 @@ const Admin = () => {
   if (userData?.role?.includes("admin"))
     return (
       <div>
-        <Sidebar />
-        index
+        <Sidebar>kjfldjlkfjkfj</Sidebar>
       </div>
     );
   else return <AdminLogin />;
