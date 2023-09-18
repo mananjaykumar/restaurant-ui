@@ -408,6 +408,7 @@ const MenuButton = (props: any) => {
           >
             {item.items.map((it: any, index: number) => (
               <ListItemButton
+                key={it.label}
                 selected={location.pathname === it.link}
                 sx={{
                   pl: 4,
@@ -418,7 +419,6 @@ const MenuButton = (props: any) => {
                   borderRadius: "5px",
                   cursor: "pointer",
                 }}
-                key={it.label}
                 onClick={() => {
                   handleItemClick(it);
                 }}
@@ -750,6 +750,7 @@ export default function Sidebar({ children }: ISidebar) {
               open={open}
               handleItemClick={handleItemClick}
               handleDrawerOpen={handleDrawerOpen}
+              key={item.label}
             />
           ))}
         </Box>
@@ -780,6 +781,7 @@ export default function Sidebar({ children }: ISidebar) {
                 open={open}
                 handleItemClick={handleItemClick}
                 handleDrawerOpen={handleDrawerOpen}
+                key={item.label}
               />
             ))}
           </List>
