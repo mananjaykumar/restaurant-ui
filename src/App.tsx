@@ -108,14 +108,6 @@ function App() {
                   </HOCAdmin>
                 }
               />
-              <Route
-                path="*"
-                element={
-                  <HOCAdmin>
-                    <NoMatch />
-                  </HOCAdmin>
-                }
-              />
             </Route>
             <Route
               path="*"
