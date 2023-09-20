@@ -84,12 +84,14 @@ const SignUp = (props: ISignUp) => {
           disabled={otpSent}
           value={signUpState.phone}
           onChange={(e) => {
-            setSignUpState((prev: any) => {
-              return {
-                ...prev,
-                phone: e.target.value,
-              };
-            });
+            if (e.target.value.toString().length <= 10) {
+              setSignUpState((prev: any) => {
+                return {
+                  ...prev,
+                  phone: e.target.value,
+                };
+              });
+            }
           }}
         />
         <TextField

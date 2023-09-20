@@ -87,12 +87,14 @@ const Login = (props: ILogin) => {
           disabled={otpSent}
           value={loginState.phone}
           onChange={(e) => {
-            setLoginState((prev) => {
-              return {
-                ...prev,
-                phone: e.target.value,
-              };
-            });
+            if (e.target.value.toString().length <= 10) {
+              setLoginState((prev) => {
+                return {
+                  ...prev,
+                  phone: e.target.value,
+                };
+              });
+            }
           }}
         />
         {otpSent && (

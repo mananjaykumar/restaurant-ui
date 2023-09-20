@@ -84,12 +84,14 @@ const AdminLogin = () => {
             disabled={otpSent}
             value={adminLoginState.phone}
             onChange={(e) => {
-              setAdminLoginState((prev: any) => {
-                return {
-                  ...prev,
-                  phone: e.target.value,
-                };
-              });
+              if (e.target.value.toString().length <= 10) {
+                setAdminLoginState((prev: any) => {
+                  return {
+                    ...prev,
+                    phone: e.target.value,
+                  };
+                });
+              }
             }}
           />
           {otpSent && (
