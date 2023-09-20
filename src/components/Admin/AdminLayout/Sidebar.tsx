@@ -151,7 +151,7 @@ const bottomItems = [
     label: "Users",
     collapsable: false,
     // link: navLinks.R_TEAM,
-    link: navLinks.R_USERS,
+    link: navLinks.R_USERS_LIST,
   },
 ];
 

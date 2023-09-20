@@ -18,7 +18,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import React from "react";
 import { styled } from "@mui/system";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 // import { addToCart, removeFromCart } from "../Redux/CounterSlice";
 // import { wishlistProduct } from "../Redux/userSlice";
 
@@ -44,7 +44,7 @@ const CardChip = styled(Chip)(({ theme }) => ({
 const CustomCard = ({ item, index }: ICustomCard) => {
   //   const { cart } = useSelector((state) => state.counter);
   //   const { userData } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   //   const product = cart.items?.find(
   //     (cartItem) => cartItem.product._id === item._id
   //   );

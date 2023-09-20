@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const ReDrawer = (props: IDrawer) => {
+export const LoginDrawer = (props: IDrawer) => {
   const classes = useStyles(theme);
   const { open, handleClose, children, title, width, subHeaderComponent } =
     props;
@@ -100,51 +100,3 @@ export const ReDrawer = (props: IDrawer) => {
     </Drawer>
   );
 };
-
-// {
-//   /* <Grid
-//   item
-//   container
-//   justifyContent="space-between"
-//   sx={{
-//     // backgroundColor: theme.palette.primary.main,
-//     color: "white",
-//     display: "flex",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     padding: "18px 22px",
-//   }}
-// >
-//   <Typography sx={{ fontSize: "16.4531px", fontWeight: "500" }}>
-//     {title}
-//   </Typography>
-//   <CloseIcon
-//     onClick={handleClose}
-//     sx={{
-//       cursor: "pointer",
-//       backgroundColor: theme.palette.secondary.main,
-//       borderRadius: "50%",
-//       padding: theme.spacing(0.25),
-//       "&:hover": {
-//         backgroundColor: theme.palette.secondary.hover,
-//       },
-//     }}
-//   /> */
-// }
-// {
-//   /* <Typography fontWeight="600" fontSize="18px" color="#2A2A2A">
-//             Filters
-//           </Typography>
-//           <Stack sx={{ width: '40px', height: '45px' }} onClick={handleClose}>
-//             <CloseIcon
-//               sx={{
-//                 cursor: 'pointer',
-//                 fontSize: '30px',
-//                 color: theme.palette.error.main,
-//               }}
-//             />
-//           </Stack> */
-// }
-// {
-//   /* </Grid>; */
-// }

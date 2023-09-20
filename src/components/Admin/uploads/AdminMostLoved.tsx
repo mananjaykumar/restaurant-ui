@@ -51,8 +51,7 @@ const AdminMostLoved = () => {
         }
       )
       .then((res) => {
-        console.log("res", res);
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setMostLovedState({
           title: "",
           originalPrice: "",
@@ -66,7 +65,7 @@ const AdminMostLoved = () => {
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
         setLoading(false);
       });
   };

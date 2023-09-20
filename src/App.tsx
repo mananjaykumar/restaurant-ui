@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 import Protected from "./routes/Protected";
 import Admin from "./components/Admin";
 import NewSidebarMain from "./components/Admin/AdminLayout/Sidebar";
+import * as navLinks from "./routes/constants";
+import UsersList from "./components/Admin/Users/UsersList";
 
 interface Props {
   children: React.ReactNode;
@@ -51,7 +53,7 @@ function App() {
                 </HOC>
               }
             />
-            <Route path="/admin" element={<Admin />} />
+            <Route path={navLinks.R_ROOT} element={<Admin />} />
             <Route
               element={
                 <Protected
@@ -84,7 +86,7 @@ function App() {
             <Route
               element={
                 <Protected
-                  redirectPath="/admin"
+                  redirectPath={navLinks.R_ROOT}
                   isAllowed={
                     (userData?.token ? true : false) &&
                     (userData?.role?.includes("admin") ? true : false)
@@ -93,7 +95,7 @@ function App() {
               }
             >
               <Route
-                path="/admin/uploads/banner"
+                path={navLinks.R_UPLOAD_BANNER}
                 element={
                   <HOCAdmin>
                     <AdminBanner />
@@ -101,10 +103,18 @@ function App() {
                 }
               />
               <Route
-                path="/admin/uploads/most-loved"
+                path={navLinks.R_UPLOAD_MOST_LOVED}
                 element={
                   <HOCAdmin>
                     <AdminMostLoved />
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path={navLinks.R_USERS_LIST}
+                element={
+                  <HOCAdmin>
+                    <UsersList />
                   </HOCAdmin>
                 }
               />

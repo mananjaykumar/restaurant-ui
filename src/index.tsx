@@ -9,6 +9,31 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@mui/material/styles";
 import store from "./store";
 import theme from "./theme";
+import axios from "axios";
+import { logout } from "./store/slices/AuthSlice";
+
+const { dispatch } = store; // direct access to redux store.
+axios.interceptors.request.use(
+  (request) => {
+    request.headers["Authorization"] = `Bearer ${
+      store?.getState()?.auth?.userData?.token
+    }`;
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { status } = error.response;
+    if (status === 403) {
+      dispatch(logout());
+    }
+    return Promise.reject(error);
+  }
+);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -7,27 +7,21 @@ import {
   Typography,
   Menu,
   Container,
-  Avatar,
   Button,
   Stack,
-  Tooltip,
   MenuItem,
-  Drawer,
-  TextField,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
-import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { useNavigate } from "react-router-dom";
-import { ReDrawer } from "../reusable/ReDrawer";
+import { LoginDrawer } from "../reusable/LoginDrawer";
 import Login from "../Auth/Login";
 import SignUp from "../Auth/SignUp";
 import { useSelector, useDispatch } from "react-redux";
@@ -355,7 +349,7 @@ function TopAppBar() {
           </Stack>
         </Toolbar>
       </Container>
-      <ReDrawer
+      <LoginDrawer
         open={showLoginDrawer}
         handleClose={() => {
           setShowLoginDrawer(false);
@@ -380,9 +374,9 @@ function TopAppBar() {
         }
       >
         <Login setShowLoginDrawer={setShowLoginDrawer} />
-      </ReDrawer>
+      </LoginDrawer>
 
-      <ReDrawer
+      <LoginDrawer
         open={showSignUpDrawer}
         handleClose={() => {
           setShowSignUpDrawer(false);
@@ -407,7 +401,7 @@ function TopAppBar() {
         }
       >
         <SignUp setShowSignUpDrawer={setShowSignUpDrawer} />
-      </ReDrawer>
+      </LoginDrawer>
     </AppBar>
   );
 }

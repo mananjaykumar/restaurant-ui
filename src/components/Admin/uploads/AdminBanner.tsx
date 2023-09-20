@@ -45,8 +45,7 @@ const AdminBanner = () => {
         }
       )
       .then((res) => {
-        console.log("res", res);
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setBannerState({
           title: "",
           description: "",
@@ -57,7 +56,7 @@ const AdminBanner = () => {
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
         setLoading(false);
       });
   };
