@@ -32,6 +32,9 @@ const RoundedButton = styled(ButtonPropsModified)(
     // justifyContent: !isNextButton && "right",
     width: "fit-content",
     color: "black",
+    [theme.breakpoints.between("xs", "lg")]: {
+      display: "none",
+    },
   })
 );
 

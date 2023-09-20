@@ -154,7 +154,7 @@ const AdminMostLoved = () => {
           />
           <TextField
             variant="outlined"
-            label="Discount*"
+            label="Discount%*"
             type="Number"
             value={mostLovedState.discount}
             onChange={(e) => {
