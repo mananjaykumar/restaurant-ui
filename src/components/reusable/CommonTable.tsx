@@ -81,6 +81,7 @@ type ITable = {
   ) => void;
   rowsPerPage: number;
   msg?: string;
+  subMsg?: string;
   loading?: boolean;
   order?: number;
   sortBy?: string;
@@ -118,6 +119,7 @@ export const CommonTable = (props: ITable) => {
     info,
     rowsPerPage,
     msg,
+    subMsg,
     handleChangePage,
     handleChangeRowsPerPage,
     loading,
@@ -138,7 +140,7 @@ export const CommonTable = (props: ITable) => {
     fromModelConfiguration,
     hideLogo = false,
     sx = {},
-    rowsPerPageOptions = [25, 50, 75],
+    rowsPerPageOptions = [2, 4, 6],
     headerColor,
     handleDrag,
     showDragIndicator,
@@ -150,7 +152,7 @@ export const CommonTable = (props: ITable) => {
     isPaginationNotNeeded,
   } = props;
   const classes = useStyles(theme);
-  const page = info?.meta?.page;
+  const page = info?.meta?.pagination?.page;
   const sortHandler = (currentSortSelection: string) => {
     return onRequestSort ? onRequestSort(currentSortSelection) : null;
   };
@@ -389,11 +391,20 @@ export const CommonTable = (props: ITable) => {
             justifyContent="center"
             sx={{
               height: window.innerHeight * 0.6,
-              fontSize: "13px",
+              // fontSize: "13px",
+              fontSize: "26px",
               fontWeight: 400,
             }}
           >
             {msg}
+            <Typography
+              sx={{
+                fontSize: "14px",
+                color: "text.secondary",
+              }}
+            >
+              {subMsg}
+            </Typography>
           </Typography>
         )}
       </TableContainer>
@@ -410,8 +421,8 @@ export const CommonTable = (props: ITable) => {
               },
             }}
             component={Stack}
-            count={info?.meta?.total}
-            page={page}
+            count={info?.meta?.pagination?.total}
+            page={page - 1}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}

@@ -9,30 +9,69 @@ import toast from "react-hot-toast";
 import { CommonMenu } from "../../reusable/CommonMenu";
 import { CommonDrawer } from "../../reusable/CommonDrawer";
 import AddAdmin from "./AddAdmin";
+import { NoData } from "../../reusable/NoData";
 // import { NoData } from "../../reusable/NoData";
+
+interface Users {
+  data: any[];
+  meta: {
+    pagination: {
+      page: number;
+      total: number;
+    };
+  };
+}
 
 const UsersList = () => {
   const [loading, setLoading] = useState(false);
   const [adminDrawer, setAdminDrawer] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const [fieldId, setFieldId] = useState("");
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<Users>();
   const [searchText, setSearchText] = useState("");
+
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    const _newPage = newPage + 1;
+    setPage(_newPage);
+    let url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?page=${_newPage}&rowsPerPage=${rowsPerPage}`;
+    if (searchText) {
+      url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?search=${searchText}&page=${page}&rowsPerPage=${rowsPerPage}`;
+    }
+    fetchUsers(url);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const number = parseInt(event.target.value, 10);
+    setRowsPerPage(number);
+    setPage(1);
+    let url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?page=${page}&rowsPerPage=${number}`;
+    if (searchText) {
+      url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?search=${searchText}&page=${page}&rowsPerPage=${number}`;
+    }
+    return fetchUsers(url);
+  };
+
   const propsData = {
     columns: ["Name", "Email", "Role", "Phone", "Created At", "Updated At", ""],
     rowsPerPage: rowsPerPage,
-    info: {
-      data: users,
-      meta: {
-        total: users?.length,
-        page: page,
-      },
-    },
-    handleChangePage: () => {},
+    // info: {
+    //   data: users,
+    //   meta: {
+    //     total: users?.length,
+    //     page: page,
+    //   },
+    // },
+    info: users,
+    handleChangePage: handleChangePage,
+    handleChangeRowsPerPage: handleChangeRowsPerPage,
     height: "calc(100vh - 250px)",
+    msg: "No matching Users",
+    subMsg: "We could not find any Users matching your search",
   };
 
   // const handleEdit = () => {
@@ -60,10 +99,14 @@ const UsersList = () => {
     setSearchText(inputText);
   };
 
-  const fetchUsers = () => {
+  const fetchUsers = (url?: string) => {
+    let URL = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?page=${page}&rowsPerPage=${rowsPerPage}`;
+    if (url) {
+      URL = url;
+    }
     setLoading(true);
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/users`)
+      .get(URL)
       .then((res) => {
         setLoading(false);
         setUsers(res?.data?.data);
@@ -81,8 +124,14 @@ const UsersList = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (searchText) {
+      setPage(1);
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?search=${searchText}&page=1&rowsPerPage=${rowsPerPage}`;
+      fetchUsers(url);
+    } else {
+      fetchUsers();
+    }
+  }, [searchText]);
   return (
     <Stack
       direction="column"
@@ -96,7 +145,7 @@ const UsersList = () => {
           <SearchInput
             changeAction={handleSearchText}
             searchValue={searchText}
-            placeholder="Search"
+            placeholder="Search by Name"
           />
         </Stack>
         <Stack>
@@ -120,7 +169,7 @@ const UsersList = () => {
             />
           )}
           {!loading &&
-            users?.map((user: any) => {
+            users?.data?.map((user: any) => {
               const updatedMenuProps = {
                 ...menuProps,
                 item: user,
