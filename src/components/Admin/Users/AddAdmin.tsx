@@ -58,7 +58,7 @@ const AddAdmin = ({ handleClose, fetchUsers }: Props) => {
   const handleVerifyOtp = () => {
     setLoading(true);
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/admin/sign-up`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/admin/verify-otp`, {
         _id: addAdminState._id,
         otp: addAdminState.otp,
       })
