@@ -24,7 +24,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import theme from "../../../theme";
-import logo from "../../../assets/TopiqLogoLight.png";
+import logo from "../../../assets/logo.png";
 import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -544,7 +544,8 @@ export default function Sidebar({ children }: ISidebar) {
             src={logo}
             alt="Topiq"
             style={{
-              height: "37px",
+              // height: "37px",
+              height: "47px",
               ...(!open && {
                 display: "none",
               }),

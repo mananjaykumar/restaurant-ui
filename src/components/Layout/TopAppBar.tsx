@@ -12,7 +12,8 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import LocalDiningIcon from "@mui/icons-material/LocalDining";
+// import LocalDiningIcon from "@mui/icons-material/LocalDining";
+import logo from "../../assets/logo.png";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SupportOutlinedIcon from "@mui/icons-material/SupportOutlined";
@@ -140,7 +141,7 @@ function TopAppBar() {
             width="100%"
           >
             <Stack direction="row" alignItems="center">
-              <LocalDiningIcon
+              {/* <LocalDiningIcon
                 sx={{
                   display: { xs: "none", md: "flex" },
                   mr: 1,
@@ -149,8 +150,8 @@ function TopAppBar() {
                   cursor: "pointer",
                 }}
                 onClick={() => navigate("/")}
-              />
-              <LocalDiningIcon
+              /> */}
+              {/* <LocalDiningIcon
                 sx={{
                   display: { xs: "flex", md: "none" },
                   mr: 1,
@@ -158,6 +159,14 @@ function TopAppBar() {
                   transform: "scale(2)",
                 }}
                 onClick={() => navigate("/")}
+              /> */}
+              <img
+                src={logo}
+                alt="Topiq"
+                style={{
+                  // height: "37px",
+                  height: "47px",
+                }}
               />
             </Stack>
 
