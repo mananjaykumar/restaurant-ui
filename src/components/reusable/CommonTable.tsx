@@ -391,7 +391,7 @@ export const CommonTable = (props: ITable) => {
             justifyContent="center"
             sx={{
               // height: window.innerHeight * 0.6,
-              height: "100%",
+              height: "90%",
               // fontSize: "13px",
               fontSize: "26px",
               fontWeight: 400,

@@ -5,10 +5,10 @@ import toast from "react-hot-toast";
 
 interface Props {
   handleClose: () => void;
-  fetchUsers: () => void;
+  handleApiCall: () => void;
 }
 
-const AddAdmin = ({ handleClose, fetchUsers }: Props) => {
+const AddAdmin = ({ handleClose, handleApiCall }: Props) => {
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [addAdminState, setAddAdminState] = useState({
@@ -40,7 +40,7 @@ const AddAdmin = ({ handleClose, fetchUsers }: Props) => {
           setOtpSent(true);
         } else {
           handleClose();
-          fetchUsers();
+          handleApiCall();
         }
       })
       .catch((err) => {
@@ -66,7 +66,7 @@ const AddAdmin = ({ handleClose, fetchUsers }: Props) => {
         setLoading(false);
         toast.success(res?.data?.messsage);
         handleClose();
-        fetchUsers();
+        handleApiCall();
       })
       .catch((err) => {
         setLoading(false);

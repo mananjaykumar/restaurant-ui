@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { CommonTable } from "../../reusable/CommonTable";
 import { Shimmer, tableBorderStyles } from "../../reusable/Shimmer";
 import { Button, Stack, TableCell, TableRow } from "@mui/material";
@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { CommonMenu } from "../../reusable/CommonMenu";
 import { CommonDrawer } from "../../reusable/CommonDrawer";
 import AddAdmin from "./AddAdmin";
+import { Debounce } from "../../../utils/Debounce";
 
 interface Users {
   data: any[];
@@ -32,6 +33,7 @@ const UsersList = () => {
   const [fieldId, setFieldId] = useState("");
   const [users, setUsers] = useState<Users>();
   const [searchText, setSearchText] = useState("");
+  const [isSearchTextAdded, setIsSearchTextAdded] = useState(false);
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     const _newPage = newPage + 1;
@@ -40,7 +42,7 @@ const UsersList = () => {
     if (searchText) {
       url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?search=${searchText}&page=${page}&rowsPerPage=${rowsPerPage}`;
     }
-    fetchUsers(url);
+    handleApiCall(url);
   };
 
   const handleChangeRowsPerPage = (
@@ -53,7 +55,7 @@ const UsersList = () => {
     if (searchText) {
       url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?search=${searchText}&page=${page}&rowsPerPage=${number}`;
     }
-    return fetchUsers(url);
+    return handleApiCall(url);
   };
 
   const propsData = {
@@ -97,9 +99,10 @@ const UsersList = () => {
   };
   const handleSearchText = (inputText: React.SetStateAction<string>) => {
     setSearchText(inputText);
+    setIsSearchTextAdded(true);
   };
 
-  const fetchUsers = (url?: string) => {
+  const handleApiCall = (url?: string) => {
     let URL = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?page=${page}&rowsPerPage=${rowsPerPage}`;
     if (url) {
       URL = url;
@@ -123,13 +126,14 @@ const UsersList = () => {
       });
   };
 
+  const call = useCallback(Debounce(handleApiCall, 500), []);
   useEffect(() => {
-    if (searchText) {
+    if (isSearchTextAdded) {
       setPage(1);
       const url = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?search=${searchText}&page=1&rowsPerPage=${rowsPerPage}`;
-      fetchUsers(url);
+      call(url);
     } else {
-      fetchUsers();
+      handleApiCall();
     }
   }, [searchText]);
   return (
@@ -200,7 +204,7 @@ const UsersList = () => {
       >
         <AddAdmin
           handleClose={() => setAdminDrawer(false)}
-          fetchUsers={fetchUsers}
+          handleApiCall={handleApiCall}
         />
       </CommonDrawer>
     </Stack>
