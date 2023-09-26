@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { CommonTable } from "../../reusable/CommonTable";
 import { Shimmer, tableBorderStyles } from "../../reusable/Shimmer";
@@ -9,8 +11,6 @@ import toast from "react-hot-toast";
 import { CommonMenu } from "../../reusable/CommonMenu";
 import { CommonDrawer } from "../../reusable/CommonDrawer";
 import AddAdmin from "./AddAdmin";
-import { NoData } from "../../reusable/NoData";
-// import { NoData } from "../../reusable/NoData";
 
 interface Users {
   data: any[];

@@ -918,13 +918,13 @@ export default function Sidebar({ children }: ISidebar) {
         component="main"
         sx={{
           flexGrow: 1,
-          marginTop: "-25px",
-          height: {
-            xs: "450px",
-            sm: "450px",
-            md: "600px",
-          },
-          overflow: "auto",
+          // marginTop: "-25px",
+          // height: {
+          //   xs: "450px",
+          //   sm: "450px",
+          //   md: "600px",
+          // },
+          // overflow: "auto",
         }}
       >
         {/* <DrawerHeader /> */}
