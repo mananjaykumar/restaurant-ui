@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { CommonMenu } from "../../reusable/CommonMenu";
-import { CommonDrawer } from "../../reusable/CommonDrawer";
+import { CustomDrawer } from "../../reusable/CustomDrawer";
 import AddAdmin from "./AddAdmin";
 import { Debounce } from "../../../utils/Debounce";
 
@@ -196,7 +196,7 @@ const UsersList = () => {
             })}
         </CommonTable>
       </Stack>
-      <CommonDrawer
+      <CustomDrawer
         open={adminDrawer}
         handleClose={() => setAdminDrawer(false)}
         title="Add Admin"
@@ -206,7 +206,7 @@ const UsersList = () => {
           handleClose={() => setAdminDrawer(false)}
           handleApiCall={handleApiCall}
         />
-      </CommonDrawer>
+      </CustomDrawer>
     </Stack>
   );
 };

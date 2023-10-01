@@ -11,6 +11,7 @@ interface IDrawer {
   title?: string;
   width?: string;
   subHeaderComponent?: React.ReactNode;
+  imgSrc?: string;
 }
 
 const useStyles = makeStyles(() => ({
@@ -21,10 +22,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const LoginDrawer = (props: IDrawer) => {
+export const CustomDrawer = (props: IDrawer) => {
   const classes = useStyles(theme);
-  const { open, handleClose, children, title, width, subHeaderComponent } =
-    props;
+  const {
+    open,
+    handleClose,
+    children,
+    title,
+    width,
+    subHeaderComponent,
+    imgSrc,
+  } = props;
   return (
     <Drawer
       anchor="right"
@@ -72,7 +80,7 @@ export const LoginDrawer = (props: IDrawer) => {
               >
                 {title}
               </Typography>
-              {subHeaderComponent}
+              {subHeaderComponent && subHeaderComponent}
             </Box>
             <Divider
               sx={{
@@ -82,17 +90,19 @@ export const LoginDrawer = (props: IDrawer) => {
               }}
             />
           </Grid>
-          <Grid item>
-            <Box
-              component="img"
-              src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
-              sx={{
-                width: "100px",
-                aspectRatio: "auto 100 / 105",
-                height: "105px",
-              }}
-            />
-          </Grid>
+          {imgSrc ? (
+            <Grid item>
+              <Box
+                component="img"
+                src={imgSrc}
+                sx={{
+                  width: "100px",
+                  aspectRatio: "auto 100 / 105",
+                  height: "105px",
+                }}
+              />
+            </Grid>
+          ) : null}
         </Grid>
 
         {children}

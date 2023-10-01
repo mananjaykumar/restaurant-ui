@@ -22,7 +22,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { useNavigate } from "react-router-dom";
-import { LoginDrawer } from "../reusable/LoginDrawer";
+import { CustomDrawer } from "../reusable/CustomDrawer";
 import Login from "../Auth/Login";
 import SignUp from "../Auth/SignUp";
 import { useSelector, useDispatch } from "react-redux";
@@ -47,6 +47,7 @@ function TopAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const [openUserDrawer, setOpenUserDrawer] = React.useState(false);
 
   const MenuData = [
     {
@@ -211,7 +212,8 @@ function TopAppBar() {
                               userData?.token &&
                               userData?.role?.includes("user")
                             ) {
-                              handleOpenUserMenu(e);
+                              // handleOpenUserMenu(e);
+                              setOpenUserDrawer(true);
                             } else {
                               setShowLoginDrawer(true);
                             }
@@ -358,12 +360,13 @@ function TopAppBar() {
           </Stack>
         </Toolbar>
       </Container>
-      <LoginDrawer
+      <CustomDrawer
         open={showLoginDrawer}
         handleClose={() => {
           setShowLoginDrawer(false);
           dispatch(toggleLoginDrawer({ open: false }));
         }}
+        imgSrc="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
         title="Login"
         width="420px"
         subHeaderComponent={
@@ -383,14 +386,15 @@ function TopAppBar() {
         }
       >
         <Login setShowLoginDrawer={setShowLoginDrawer} />
-      </LoginDrawer>
+      </CustomDrawer>
 
-      <LoginDrawer
+      <CustomDrawer
         open={showSignUpDrawer}
         handleClose={() => {
           setShowSignUpDrawer(false);
           dispatch(toggleLoginDrawer({ open: false }));
         }}
+        imgSrc="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
         title="Sign Up"
         width="420px"
         subHeaderComponent={
@@ -410,7 +414,40 @@ function TopAppBar() {
         }
       >
         <SignUp setShowSignUpDrawer={setShowSignUpDrawer} />
-      </LoginDrawer>
+      </CustomDrawer>
+      <CustomDrawer
+        open={openUserDrawer}
+        handleClose={() => {
+          setOpenUserDrawer(false);
+          // dispatch(toggleLoginDrawer({ open: false }));
+        }}
+        title="Account"
+        width="420px"
+      >
+        <Stack width="100%" mt={4}>
+          {settings.map((setting, index) => (
+            <MenuItem
+              key={setting.name}
+              onClick={() => {
+                if (index === settings.length - 1) {
+                  dispatch(logout());
+                  toast.success("Logged Out Successfully!");
+                } else {
+                  navigate(setting.to);
+                }
+                setOpenUserDrawer(false);
+              }}
+              sx={{
+                gap: "1rem",
+                color: "#3d4152",
+              }}
+            >
+              {setting.icon}
+              <Typography textAlign="center">{setting.name}</Typography>
+            </MenuItem>
+          ))}
+        </Stack>
+      </CustomDrawer>
     </AppBar>
   );
 }

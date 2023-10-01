@@ -33,12 +33,12 @@ const Banner = () => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/banner`)
       .then((res) => {
-        setItems(res.data.data.reverse());
+        setItems(res?.data?.data?.reverse());
         // setItems([]);
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
         setLoading(false);
       });
   }, []);
