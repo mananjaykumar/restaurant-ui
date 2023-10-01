@@ -16,6 +16,7 @@ import Admin from "./components/Admin";
 import NewSidebarMain from "./components/Admin/AdminLayout/Sidebar";
 import * as navLinks from "./routes/constants";
 import UsersList from "./components/Admin/Users/UsersList";
+import Footer from "./components/Layout/Footer";
 
 interface Props {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ const HOC = ({ children }: Props) => {
     <>
       <TopAppBar />
       {children}
+      <Footer />
     </>
   );
 };
