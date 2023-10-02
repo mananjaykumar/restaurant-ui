@@ -60,7 +60,7 @@ const AddAdminSubCategory = () => {
           <TextField
             autoFocus
             variant="outlined"
-            label="Category*"
+            label="Sub Category*"
             value={subCategoryState.name}
             disabled={loading}
             onChange={(e) => {
