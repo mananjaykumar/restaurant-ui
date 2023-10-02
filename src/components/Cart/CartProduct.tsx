@@ -4,11 +4,10 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useDispatch } from "react-redux";
-import {
-  addToCart,
-  removeFromCart,
-  //   deleteFromCart,
-} from "../../store/slices/AuthSlice";
+import // addToCart,
+// removeFromCart,
+//   deleteFromCart,
+"../../store/slices/AuthSlice";
 
 const CardIncButton = styled(Button)(({ theme }) => ({
   padding: "0.1rem",
@@ -54,7 +53,7 @@ function CartProduct(props: any) {
       >
         <CardIncButton
           onClick={() => {
-            dispatch(addToCart(props.item));
+            // dispatch(addToCart(props.item));
           }}
         >
           <AddOutlinedIcon />
@@ -63,7 +62,7 @@ function CartProduct(props: any) {
         <CardDecButton
           disabled={props.quantity === 1}
           onClick={() => {
-            dispatch(removeFromCart(props.item));
+            // dispatch(removeFromCart(props.item));
           }}
         >
           <RemoveOutlinedIcon />

@@ -22,9 +22,10 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 // import {} from "../../store/slices/CartSlice";
 import {
-  addToWishlist,
-  addToCart,
-  removeFromCart,
+  updateWishList,
+  // addToCart,
+  // removeFromCart,
+  updateCart,
 } from "../../store/slices/AuthSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -69,7 +70,9 @@ const CustomCard = ({ item, index }: ICustomCard) => {
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/user/addToCart`, { item })
       .then((res) => {
-        dispatch(addToCart(item));
+        // dispatch(addToCart(item));
+        console.log(res);
+        dispatch(updateCart(res?.data?.data));
         if (res?.data?.message === "Item added to cart successfully") {
           toast.success(res?.data?.message);
         }
@@ -89,7 +92,8 @@ const CustomCard = ({ item, index }: ICustomCard) => {
         item,
       })
       .then((res) => {
-        dispatch(removeFromCart(item));
+        // dispatch(removeFromCart(item));
+        dispatch(updateCart(res?.data?.data));
         if (res?.data?.message === "Item removed from cart successfully") {
           toast.success(res?.data?.message);
         }
@@ -106,7 +110,7 @@ const CustomCard = ({ item, index }: ICustomCard) => {
         item,
       })
       .then((res) => {
-        dispatch(addToWishlist(item));
+        dispatch(updateWishList(res?.data?.data));
         toast.success(res?.data?.message);
       })
       .catch((error) => {
