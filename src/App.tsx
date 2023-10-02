@@ -7,7 +7,9 @@ import TopAppBar from "./components/Layout/TopAppBar";
 import Dashboard from "./components/Dashboard";
 import Users from "./components/Users";
 import AdminBanner from "./components/Admin/uploads/AdminBanner";
-import AdminMostLoved from "./components/Admin/uploads/AdminMostLoved";
+import AdminMostLoved from "./components/Admin/uploads/AdminProducts";
+import AddAdminCategory from "./components/Admin/Add/AddAdminCategory";
+import AddAdminSubCategory from "./components/Admin/Add/AddAdminSubCategory";
 import { NoMatch } from "./pages/NoMatch";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
@@ -98,6 +100,22 @@ function App() {
               }
             >
               <Route
+                path={navLinks.R_ADD_CATEGORY}
+                element={
+                  <HOCAdmin>
+                    <AddAdminCategory />
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path={navLinks.R_ADD_SUB_CATEGORY}
+                element={
+                  <HOCAdmin>
+                    <AddAdminSubCategory />
+                  </HOCAdmin>
+                }
+              />
+              <Route
                 path={navLinks.R_UPLOAD_BANNER}
                 element={
                   <HOCAdmin>
@@ -106,7 +124,15 @@ function App() {
                 }
               />
               <Route
-                path={navLinks.R_UPLOAD_MOST_LOVED}
+                path={navLinks.R_UPLOAD_BANNER}
+                element={
+                  <HOCAdmin>
+                    <AdminBanner />
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path={navLinks.R_UPLOAD_PRODUCTS}
                 element={
                   <HOCAdmin>
                     <AdminMostLoved />
