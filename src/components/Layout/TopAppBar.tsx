@@ -10,6 +10,7 @@ import {
   Button,
   Stack,
   MenuItem,
+  Badge,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 // import LocalDiningIcon from "@mui/icons-material/LocalDining";
@@ -48,6 +49,7 @@ function TopAppBar() {
     null
   );
   const [openUserDrawer, setOpenUserDrawer] = React.useState(false);
+  const count = useSelector((state: any) => state.cart.cartProductsCount);
 
   const MenuData = [
     {
@@ -88,7 +90,11 @@ function TopAppBar() {
     },
     {
       name: "Cart",
-      icon: <ShoppingCartOutlinedIcon />,
+      icon: (
+        <Badge badgeContent={count} color="error">
+          <ShoppingCartOutlinedIcon />
+        </Badge>
+      ),
       to: "/profile",
     },
     {

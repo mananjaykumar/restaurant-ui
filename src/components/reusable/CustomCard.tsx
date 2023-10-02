@@ -10,6 +10,7 @@ import {
   Rating,
   Button,
   Chip,
+  CircularProgress,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -18,8 +19,10 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import React from "react";
 import { styled } from "@mui/system";
 import { Link } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
-// import { addToCart, removeFromCart } from "../Redux/CounterSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, removeFromCart } from "../../store/slices/CartSlice";
+import axios from "axios";
+import toast from "react-hot-toast";
 // import { wishlistProduct } from "../Redux/userSlice";
 
 interface ICustomCard {
@@ -30,6 +33,7 @@ interface ICustomCard {
 const CardAddButton = styled(Button)(({ theme }) => ({
   padding: "0.1rem",
   minWidth: "0",
+  width: "25px", // testing
   border: `1px solid ${theme.palette.error.main}`,
   color: theme.palette.error.main,
 }));
@@ -42,17 +46,51 @@ const CardChip = styled(Chip)(({ theme }) => ({
 }));
 
 const CustomCard = ({ item, index }: ICustomCard) => {
-  //   const { cart } = useSelector((state) => state.counter);
+  const [addItemLoading, setAddItemLoading] = React.useState(false);
+  const [removeItemLoading, setRemoveItemLoading] = React.useState(false);
+  const { cart } = useSelector((state: any) => state.cart);
   //   const { userData } = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  //   const product = cart.items?.find(
-  //     (cartItem) => cartItem.product._id === item._id
-  //   );
+  const dispatch = useDispatch();
+  const product = cart.items?.find(
+    (cartItem: any) => cartItem.product._id === item._id
+  );
   let quantity = 0;
-  //   if (product) {
-  //     quantity = product.quantity;
-  //   }
+  if (product) {
+    quantity = product.quantity;
+  }
   //   const isLiked = userData?.wishlist?.find((p) => p === item._id) || false;
+  const addItemToCart = () => {
+    setAddItemLoading(true);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/user/addToCart`, { item })
+      .then((res) => {
+        dispatch(addToCart(item));
+        toast.success(res?.data?.message);
+        setAddItemLoading(false);
+      })
+      .catch((error) => {
+        // console.log("error", err)
+        toast.error(error?.response?.data?.message);
+        setAddItemLoading(false);
+      });
+  };
+
+  const removeItemFromCart = () => {
+    setRemoveItemLoading(true);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/user/removeFromCart`, {
+        item,
+      })
+      .then((res) => {
+        dispatch(removeFromCart(item));
+        toast.success(res?.data?.message);
+        setRemoveItemLoading(false);
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
+        setRemoveItemLoading(false);
+      });
+  };
 
   return (
     <Card
@@ -145,18 +183,22 @@ const CustomCard = ({ item, index }: ICustomCard) => {
             alignItems="center"
             height="100%"
           >
-            <CardAddButton
-            // onClick={() => dispatch(addToCart(item))}
-            >
-              <AddIcon fontSize="small" color="error" />
+            <CardAddButton onClick={addItemToCart}>
+              {addItemLoading ? (
+                <CircularProgress size="15px" color="error" />
+              ) : (
+                <AddIcon fontSize="small" color="error" />
+              )}
             </CardAddButton>
             {quantity !== 0 && (
               <>
                 <Typography variant="body1">{quantity}</Typography>
-                <CardAddButton
-                // onClick={() => dispatch(removeFromCart(item))}
-                >
-                  <RemoveIcon fontSize="small" color="error" />
+                <CardAddButton onClick={removeItemFromCart}>
+                  {removeItemLoading ? (
+                    <CircularProgress size="15px" color="error" />
+                  ) : (
+                    <RemoveIcon fontSize="small" color="error" />
+                  )}
                 </CardAddButton>
               </>
             )}

@@ -14,6 +14,7 @@ const Footer = () => {
         backgroundColor: "rgb(2, 6, 12)",
         color: "white",
         padding: "100px 10px",
+        marginTop: "12rem",
       }}
     >
       <Stack
