@@ -29,7 +29,8 @@ import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+// import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import AddIcon from "@mui/icons-material/Add";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import * as navLinks from "../../../routes/constants";
 import { AppBar } from "./AppBar";
@@ -75,10 +76,24 @@ const menuItems1 = [
     link: navLinks.R_UPLOAD_BANNER,
   },
   {
-    icon: <FavoriteBorderOutlinedIcon />,
-    activeIcon: <FavoriteBorderOutlinedIcon />,
-    label: "Most Loved",
-    link: navLinks.R_UPLOAD_MOST_LOVED,
+    icon: <AddIcon />,
+    activeIcon: <AddIcon />,
+    label: "Products",
+    link: navLinks.R_UPLOAD_PRODUCTS,
+  },
+];
+const menuItems2 = [
+  {
+    icon: <ViewCarouselOutlinedIcon />,
+    activeIcon: <ViewCarouselOutlinedIcon />,
+    label: "Category",
+    link: navLinks.R_ADD_CATEGORY,
+  },
+  {
+    icon: <AddIcon />,
+    activeIcon: <AddIcon />,
+    label: "Sub Category",
+    link: navLinks.R_ADD_SUB_CATEGORY,
   },
 ];
 
@@ -470,6 +485,13 @@ export default function Sidebar({ children }: ISidebar) {
   // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // const menuOpen = Boolean(anchorEl);
   const [sidebarItems, setSidebarItems] = useState([
+    {
+      label: "Add",
+      icon: <AddIcon />,
+      items: menuItems2,
+      collapsable: true,
+      collapseOpen: false,
+    },
     {
       label: "Uploads",
       icon: <CloudUploadOutlinedIcon />,

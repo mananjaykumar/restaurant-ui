@@ -162,12 +162,12 @@ const MostLoved = () => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/most-loved`)
       .then((res) => {
-        setCarouselItems(res.data.data);
+        setCarouselItems(res?.data?.data);
         // setItems([]);
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error(err?.response?.data?.message);
         setLoading(false);
       });
   }, []);

@@ -1,5 +1,15 @@
 import React from "react";
-import { Stack, Button, TextField, Typography } from "@mui/material";
+import {
+  Stack,
+  Button,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
@@ -17,7 +27,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const AdminMostLoved = () => {
+const AdminProducts = () => {
   const [loading, setLoading] = React.useState(false);
   const [mostLovedState, setMostLovedState] = React.useState({
     title: "",
@@ -25,11 +35,17 @@ const AdminMostLoved = () => {
     discountedPrice: "",
     rating: "",
     discount: "",
+    category: "",
+    subCategory: "",
     selectedFile: {
       name: "",
     },
   });
   const acceptedFiles = [".jpg", ".png", ".jpeg"];
+  const [categoryLoading, setCategoryLoading] = React.useState(false);
+  const [subCategoryLoading, setSubCategoryLoading] = React.useState(false);
+  const [categoryState, setCategoryState] = React.useState([]);
+  const [subCategoryState, setSubCategoryState] = React.useState([]);
 
   const handleSubmit = () => {
     setLoading(true);
@@ -42,6 +58,8 @@ const AdminMostLoved = () => {
           discountedPrice: mostLovedState.discountedPrice,
           rating: mostLovedState.rating,
           discount: mostLovedState.discount,
+          category: mostLovedState.category,
+          subCategory: mostLovedState.subCategory,
           mostLoved: mostLovedState.selectedFile,
         },
         {
@@ -58,6 +76,8 @@ const AdminMostLoved = () => {
           discountedPrice: "",
           rating: "",
           discount: "",
+          category: "",
+          subCategory: "",
           selectedFile: {
             name: "",
           },
@@ -69,6 +89,56 @@ const AdminMostLoved = () => {
         setLoading(false);
       });
   };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setMostLovedState((prev) => {
+      return {
+        ...prev,
+        category: event.target.value as string,
+      };
+    });
+  };
+  const handleChangeSubCategory = (event: SelectChangeEvent) => {
+    setMostLovedState((prev) => {
+      return {
+        ...prev,
+        subCategory: event.target.value as string,
+      };
+    });
+  };
+
+  const fetchCategories = () => {
+    setCategoryLoading(true);
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/categories`)
+      .then((res) => {
+        setCategoryState(res?.data?.data);
+        setCategoryLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+        setCategoryLoading(false);
+      });
+  };
+  const fetchSubCategories = () => {
+    setSubCategoryLoading(true);
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/sub-categories`)
+      .then((res) => {
+        setSubCategoryState(res?.data?.data);
+        setSubCategoryLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+        setSubCategoryLoading(false);
+      });
+  };
+
+  React.useEffect(() => {
+    fetchCategories();
+    fetchSubCategories();
+  }, []);
+  console.log("categoryState: " + categoryState);
   return (
     <Stack
       sx={{
@@ -88,11 +158,16 @@ const AdminMostLoved = () => {
           display: "flex",
           flexDirection: "column",
           gap: "2.5rem",
+          height: "450px",
+          overflow: "auto",
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         <Stack>
           <Typography fontFamily="Basis Grotesque Pro" fontSize="25px">
-            Upload Most Loved Items
+            Upload Products
           </Typography>
         </Stack>
         <Stack sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -166,6 +241,48 @@ const AdminMostLoved = () => {
               });
             }}
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              {categoryLoading ? "Loading..." : "Category"}
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={mostLovedState.category}
+              label={categoryLoading ? "Loading" : "Category"}
+              onChange={handleChange}
+              disabled={categoryLoading}
+            >
+              {categoryState?.map((item: any) => {
+                return (
+                  <MenuItem value={item?._id} key={item?._id}>
+                    {item?.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              {subCategoryLoading ? "Loading..." : "Sub Category"}
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={mostLovedState.subCategory}
+              label={subCategoryLoading ? "Loading" : "Sub Category"}
+              onChange={handleChangeSubCategory}
+              disabled={subCategoryLoading}
+            >
+              {subCategoryState?.map((item: any) => {
+                return (
+                  <MenuItem value={item?._id} key={item?._id}>
+                    {item?.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
 
           <Stack direction="row" alignItems="center" gap="0.5rem">
             <Button
@@ -216,4 +333,4 @@ const AdminMostLoved = () => {
   );
 };
 
-export default AdminMostLoved;
+export default AdminProducts;
