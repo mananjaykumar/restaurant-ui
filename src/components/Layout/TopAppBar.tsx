@@ -49,7 +49,7 @@ function TopAppBar() {
     null
   );
   const [openUserDrawer, setOpenUserDrawer] = React.useState(false);
-  const count = useSelector((state: any) => state.cart.cartProductsCount);
+  const count = useSelector((state: any) => state?.auth?.userData?.cart?.cartProductsCount);
 
   const MenuData = [
     {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IconButton, Stack, Typography } from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -6,10 +6,16 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import AOS from "aos";
+
 
 const Footer = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   return (
     <Stack
+      data-aos="zoom-in-up"
       sx={{
         backgroundColor: "rgb(2, 6, 12)",
         color: "white",

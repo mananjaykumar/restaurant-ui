@@ -8,7 +8,7 @@ import {
   addToCart,
   removeFromCart,
   //   deleteFromCart,
-} from "../../store/slices/CartSlice";
+} from "../../store/slices/AuthSlice";
 
 const CardIncButton = styled(Button)(({ theme }) => ({
   padding: "0.1rem",

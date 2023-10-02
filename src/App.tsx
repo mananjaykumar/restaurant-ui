@@ -17,6 +17,7 @@ import NewSidebarMain from "./components/Admin/AdminLayout/Sidebar";
 import * as navLinks from "./routes/constants";
 import UsersList from "./components/Admin/Users/UsersList";
 import Footer from "./components/Layout/Footer";
+import "aos/dist/aos.css";
 
 interface Props {
   children: React.ReactNode;

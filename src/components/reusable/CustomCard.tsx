@@ -20,7 +20,12 @@ import React from "react";
 import { styled } from "@mui/system";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "../../store/slices/CartSlice";
+// import {} from "../../store/slices/CartSlice";
+import {
+  addToWishlist,
+  addToCart,
+  removeFromCart,
+} from "../../store/slices/AuthSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 // import { wishlistProduct } from "../Redux/userSlice";
@@ -48,24 +53,26 @@ const CardChip = styled(Chip)(({ theme }) => ({
 const CustomCard = ({ item, index }: ICustomCard) => {
   const [addItemLoading, setAddItemLoading] = React.useState(false);
   const [removeItemLoading, setRemoveItemLoading] = React.useState(false);
-  const { cart } = useSelector((state: any) => state.cart);
-  //   const { userData } = useSelector((state) => state.user);
+  // const { cart } = useSelector((state: any) => state.cart);
+  const { userData } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
-  const product = cart.items?.find(
+  const product = userData?.cart?.items?.find(
     (cartItem: any) => cartItem.product._id === item._id
   );
   let quantity = 0;
   if (product) {
     quantity = product.quantity;
   }
-  //   const isLiked = userData?.wishlist?.find((p) => p === item._id) || false;
+  const isLiked = userData?.wishlist?.find((p: any) => p === item._id) || false;
   const addItemToCart = () => {
     setAddItemLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/user/addToCart`, { item })
       .then((res) => {
         dispatch(addToCart(item));
-        toast.success(res?.data?.message);
+        if (res?.data?.message === "Item added to cart successfully") {
+          toast.success(res?.data?.message);
+        }
         setAddItemLoading(false);
       })
       .catch((error) => {
@@ -83,12 +90,27 @@ const CustomCard = ({ item, index }: ICustomCard) => {
       })
       .then((res) => {
         dispatch(removeFromCart(item));
-        toast.success(res?.data?.message);
+        if (res?.data?.message === "Item removed from cart successfully") {
+          toast.success(res?.data?.message);
+        }
         setRemoveItemLoading(false);
       })
       .catch((error) => {
         toast.error(error?.response?.data?.message);
         setRemoveItemLoading(false);
+      });
+  };
+  const addItemToWishList = () => {
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/user/addToWishList`, {
+        item,
+      })
+      .then((res) => {
+        dispatch(addToWishlist(item));
+        toast.success(res?.data?.message);
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
       });
   };
 
@@ -102,6 +124,7 @@ const CustomCard = ({ item, index }: ICustomCard) => {
         // boxShadow: "1",
         boxShadow: " 15px  rgba(40,44,63,.15)",
         transition: "all 250ms ease-in-out",
+        height: "386px",
         // "&:hover": {
         //   boxShadow: "2",
         // },
@@ -117,18 +140,23 @@ const CustomCard = ({ item, index }: ICustomCard) => {
           sx={{
             color: "rgba(0, 0, 0, 0.54)",
           }}
-          //   checked={Boolean(isLiked)}
-          checked={false}
+          checked={Boolean(isLiked)}
+          // checked={false}
           icon={<FavoriteBorderIcon fontSize="small" />}
           checkedIcon={<FavoriteIcon color="error" fontSize="small" />}
-          //   onChange={(e) => {
-          //     dispatch(wishlistProduct(item));
-          //   }}
+          onChange={addItemToWishList}
         />
       </Grid>
       <Link to={`/product/${item._id}`}>
         <CardMedia
-          sx={{ height: "225px" }}
+          sx={{
+            height: "225px",
+            width: "250px",
+            "&:hover": {
+              transform: "scale(1.1,1.1)",
+              transition: "transform 0.2s",
+            }, // temporary
+          }}
           component="img"
           // src={item.imgSrc}
           src={`data:image/${item.img.contentType};base64,

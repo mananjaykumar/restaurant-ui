@@ -7,6 +7,7 @@ import React from "react";
 import CustomCarousel from "../reusable/CustomCarousel.jsx";
 import CustomCard from "../reusable/CustomCard";
 import toast from "react-hot-toast";
+import AOS from "aos";
 // import SectionHeader from "./SectionHeader";
 
 // const carouselItems = [
@@ -157,6 +158,7 @@ const MostLoved = () => {
   //   }, []);
 
   useEffect(() => {
+    AOS.init();
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/most-loved`)
       .then((res) => {
@@ -176,6 +178,7 @@ const MostLoved = () => {
   return (
     // <section className="flash-deals" style={{ margin: "3rem 0 0 0" }}>
     <Stack
+      data-aos="zoom-in-up"
       sx={{
         marginTop: "50px",
         marginLeft: {
