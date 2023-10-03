@@ -8,6 +8,8 @@ import CustomCarousel from "../reusable/CustomCarousel.jsx";
 import CustomCard from "../reusable/CustomCard";
 import toast from "react-hot-toast";
 import AOS from "aos";
+import { useDispatch } from "react-redux";
+import { setProgress } from "../../store/slices/ProgressSlice";
 // import SectionHeader from "./SectionHeader";
 
 // const carouselItems = [
@@ -144,6 +146,7 @@ const SectionHeader = ({ title, Icon, headerSize }: ISectionHeader) => {
 };
 
 const MostLoved = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [carouselItems, setCarouselItems] = useState([]);
   //   useEffect(() => {
@@ -158,17 +161,22 @@ const MostLoved = () => {
   //   }, []);
 
   useEffect(() => {
+    dispatch(setProgress({ progress: 10 }));
     AOS.init();
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/home/most-loved`)
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         setCarouselItems(res?.data?.data);
+        dispatch(setProgress({ progress: 70 }));
         // setItems([]);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       });
   }, []);
 

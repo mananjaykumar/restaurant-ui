@@ -12,6 +12,8 @@ import { CommonMenu } from "../../reusable/CommonMenu";
 import { CustomDrawer } from "../../reusable/CustomDrawer";
 import AddAdmin from "./AddAdmin";
 import { Debounce } from "../../../utils/Debounce";
+import { setProgress } from "../../../store/slices/ProgressSlice";
+import { useDispatch } from "react-redux";
 
 interface Users {
   data: any[];
@@ -24,6 +26,7 @@ interface Users {
 }
 
 const UsersList = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [adminDrawer, setAdminDrawer] = useState(false);
   const [page, setPage] = useState(1);
@@ -103,16 +106,20 @@ const UsersList = () => {
   };
 
   const handleApiCall = (url?: string) => {
+    dispatch(setProgress({ progress: 10 }));
     let URL = `${process.env.REACT_APP_BACKEND_URL}/api/admin/users?page=${page}&rowsPerPage=${rowsPerPage}`;
     if (url) {
       URL = url;
     }
     setLoading(true);
+    dispatch(setProgress({ progress: 30 }));
     axios
       .get(URL)
       .then((res) => {
+        dispatch(setProgress({ progress: 70 }));
         setLoading(false);
         setUsers(res?.data?.data);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         setLoading(false);
@@ -123,6 +130,7 @@ const UsersList = () => {
         //   dispatch(logout());
         // }
         toast.error(err?.response?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
 

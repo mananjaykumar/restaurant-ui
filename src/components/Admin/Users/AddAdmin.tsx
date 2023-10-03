@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Stack, TextField, Button } from "@mui/material";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setProgress } from "../../../store/slices/ProgressSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {
   handleClose: () => void;
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const AddAdmin = ({ handleClose, handleApiCall }: Props) => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [addAdminState, setAddAdminState] = useState({
@@ -20,6 +23,7 @@ const AddAdmin = ({ handleClose, handleApiCall }: Props) => {
   });
 
   const handleSubmit = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/admin/sign-up`, {
@@ -28,8 +32,11 @@ const AddAdmin = ({ handleClose, handleApiCall }: Props) => {
         phone: addAdminState.phone,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         setLoading(false);
+        dispatch(setProgress({ progress: 70 }));
         toast.success(res?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
         if (res?.data?.message === "OTP Sent Successfully") {
           setAddAdminState((prev: any) => {
             return {
@@ -52,10 +59,12 @@ const AddAdmin = ({ handleClose, handleApiCall }: Props) => {
         //   dispatch(logout());
         // }
         toast.error(err?.response?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
 
   const handleVerifyOtp = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/admin/verify-otp`, {
@@ -63,14 +72,18 @@ const AddAdmin = ({ handleClose, handleApiCall }: Props) => {
         otp: addAdminState.otp,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         setLoading(false);
+        dispatch(setProgress({ progress: 70 }));
         toast.success(res?.data?.messsage);
         handleClose();
         handleApiCall();
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         setLoading(false);
         toast.error(err?.response?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
   return (

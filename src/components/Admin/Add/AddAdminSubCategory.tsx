@@ -2,21 +2,27 @@ import React from "react";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setProgress } from "../../../store/slices/ProgressSlice";
+import { useDispatch } from "react-redux";
 
 const AddAdminSubCategory = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   const [subCategoryState, setSubCategoryState] = React.useState({
     name: "",
   });
 
   const handleSubmit = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/add-subCategory`, {
         name: subCategoryState.name,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         toast.success(res?.data?.message);
+        dispatch(setProgress({ progress: 70 }));
         setSubCategoryState((prev) => {
           return {
             ...prev,
@@ -24,10 +30,12 @@ const AddAdminSubCategory = () => {
           };
         });
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
   return (

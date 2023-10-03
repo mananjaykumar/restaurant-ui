@@ -20,14 +20,17 @@ import * as navLinks from "./routes/constants";
 import UsersList from "./components/Admin/Users/UsersList";
 import Footer from "./components/Layout/Footer";
 import "aos/dist/aos.css";
+import LoadingBar from "react-top-loading-bar";
 
 interface Props {
   children: React.ReactNode;
 }
 const HOC = ({ children }: Props) => {
+  const { progress } = useSelector((state: any) => state.progress);
   return (
     <>
       <TopAppBar />
+      <LoadingBar color="#f11946" progress={progress} height={3} />
       {children}
       <Footer />
     </>

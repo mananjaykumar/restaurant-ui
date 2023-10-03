@@ -164,7 +164,7 @@ function Item(props: any) {
           maxWidth="100%"
           display="block"
           marginLeft="auto"
-          marginRight="auto"
+          marginRight="0"
           component={"img"}
           sx={{
             height: { xs: "220px", sm: "250px" },

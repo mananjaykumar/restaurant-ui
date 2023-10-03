@@ -4,6 +4,7 @@ import { login } from "../../store/slices/AuthSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setProgress } from "../../store/slices/ProgressSlice";
 
 interface ISignUp {
   setShowSignUpDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ const SignUp = (props: ISignUp) => {
   const [loading, setLoading] = React.useState(false);
 
   const handleSendOTP = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/phone`, {
@@ -31,10 +33,13 @@ const SignUp = (props: ISignUp) => {
         email: signUpState.email,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         if (res?.data?.message === "User access has been granted") {
           dispatch(login({ userInfo: res?.data?.data }));
           setShowSignUpDrawer(false);
+          dispatch(setProgress({ progress: 100 }));
         } else {
+          dispatch(setProgress({ progress: 70 }));
           setSignUpState((prev: any) => {
             return {
               ...prev,
@@ -45,13 +50,16 @@ const SignUp = (props: ISignUp) => {
         }
         toast.success(res?.data?.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
   const handleSubmit = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verify-otp`, {
@@ -59,16 +67,18 @@ const SignUp = (props: ISignUp) => {
         _id: signUpState._id,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         // setOtpSent(false);
-        console.log("res", res);
         setLoading(false);
         toast.success(res?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
         setShowSignUpDrawer(false);
         dispatch(login({ userInfo: res?.data?.data }));
       })
       .catch((err) => {
         setLoading(false);
         toast.error(err?.response?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
 

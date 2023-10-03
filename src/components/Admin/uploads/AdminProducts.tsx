@@ -14,6 +14,8 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { setProgress } from "../../../store/slices/ProgressSlice";
+import { useDispatch } from "react-redux";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -28,6 +30,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const AdminProducts = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   const [mostLovedState, setMostLovedState] = React.useState({
     title: "",
@@ -48,6 +51,7 @@ const AdminProducts = () => {
   const [subCategoryState, setSubCategoryState] = React.useState([]);
 
   const handleSubmit = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(
@@ -69,7 +73,9 @@ const AdminProducts = () => {
         }
       )
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         toast.success(res?.data?.message);
+        dispatch(setProgress({ progress: 70 }));
         setMostLovedState({
           title: "",
           originalPrice: "",
@@ -83,10 +89,12 @@ const AdminProducts = () => {
           },
         });
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
 

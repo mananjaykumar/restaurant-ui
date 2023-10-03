@@ -29,11 +29,15 @@ import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
+import ClassIcon from '@mui/icons-material/Class';
+import CategoryIcon from '@mui/icons-material/Category';
 // import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import AddIcon from "@mui/icons-material/Add";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import * as navLinks from "../../../routes/constants";
 import { AppBar } from "./AppBar";
+import LoadingBar from "react-top-loading-bar";
 // import css from "../../css/modules/sidebarMain.module.scss";
 
 const drawerWidth = 240;
@@ -76,22 +80,22 @@ const menuItems1 = [
     link: navLinks.R_UPLOAD_BANNER,
   },
   {
-    icon: <AddIcon />,
-    activeIcon: <AddIcon />,
+    icon: <InsertPhotoIcon />,
+    activeIcon: <InsertPhotoIcon />,
     label: "Products",
     link: navLinks.R_UPLOAD_PRODUCTS,
   },
 ];
 const menuItems2 = [
   {
-    icon: <ViewCarouselOutlinedIcon />,
-    activeIcon: <ViewCarouselOutlinedIcon />,
+    icon: <CategoryIcon />,
+    activeIcon: <CategoryIcon />,
     label: "Category",
     link: navLinks.R_ADD_CATEGORY,
   },
   {
-    icon: <AddIcon />,
-    activeIcon: <AddIcon />,
+    icon: <ClassIcon />,
+    activeIcon: <ClassIcon />,
     label: "Sub Category",
     link: navLinks.R_ADD_SUB_CATEGORY,
   },
@@ -482,20 +486,21 @@ export default function Sidebar({ children }: ISidebar) {
   const [open, setOpen] = useState(false);
   // const [collapseOpen, setCollapseOpen] = useState(false);
   const { userData } = useSelector((store: any) => store.auth);
+  const { progress } = useSelector((store: any) => store.progress);
   // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // const menuOpen = Boolean(anchorEl);
   const [sidebarItems, setSidebarItems] = useState([
     {
-      label: "Add",
-      icon: <AddIcon />,
-      items: menuItems2,
+      label: "Uploads",
+      icon: <CloudUploadOutlinedIcon />,
+      items: menuItems1,
       collapsable: true,
       collapseOpen: false,
     },
     {
-      label: "Uploads",
-      icon: <CloudUploadOutlinedIcon />,
-      items: menuItems1,
+      label: "Add",
+      icon: <AddIcon />,
+      items: menuItems2,
       collapsable: true,
       collapseOpen: false,
     },
@@ -539,6 +544,7 @@ export default function Sidebar({ children }: ISidebar) {
           </Typography> */}
         </Toolbar>
       </AppBar>
+      <LoadingBar color="#f11946" progress={progress} height={3} />
       <Drawer
         // className={classNames(css.root)}
         variant="permanent"

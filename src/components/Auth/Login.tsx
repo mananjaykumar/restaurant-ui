@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { toggleLoginDrawer } from "../../store/slices/TogglerSlice";
+import { setProgress } from "../../store/slices/ProgressSlice";
 
 interface ILogin {
   setShowLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,16 +25,20 @@ const Login = (props: ILogin) => {
   const [loading, setLoading] = React.useState(false);
 
   const handleLogin = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/send-otp`, {
         phone: loginState.phone,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         if (res?.data?.message === "User access has been granted") {
           dispatch(login({ userInfo: res?.data?.data }));
           setShowLoginDrawer(false);
+          dispatch(setProgress({ progress: 100 }));
         } else {
+          dispatch(setProgress({ progress: 70 }));
           setLoginState((prev: any) => {
             return {
               ...prev,
@@ -44,13 +49,16 @@ const Login = (props: ILogin) => {
         }
         toast.success(res?.data?.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         setLoading(false);
         toast.error(err?.response?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
   const handleSubmit = () => {
+    dispatch(setProgress({ progress: 10 }));
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verify-otp`, {
@@ -58,9 +66,11 @@ const Login = (props: ILogin) => {
         _id: loginState._id,
       })
       .then((res) => {
+        dispatch(setProgress({ progress: 30 }));
         // setOtpSent(false);
         setLoading(false);
         toast.success(res?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
         setShowLoginDrawer(false);
         dispatch(login({ userInfo: res?.data?.data }));
         dispatch(toggleLoginDrawer({ open: false }));
@@ -68,6 +78,7 @@ const Login = (props: ILogin) => {
       .catch((err) => {
         setLoading(false);
         toast.error(err?.response?.data?.message);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
 
