@@ -70,7 +70,6 @@ const AdminProducts = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          withCredentials: true,
         }
       )
       .then((res) => {
