@@ -162,9 +162,9 @@ const CustomCard = ({ item, index }: ICustomCard) => {
             }, // temporary
           }}
           component="img"
-          // src={item.imgSrc}
-          src={`data:image/${item.img.contentType};base64,
-        ${item.img.data}`}
+          src={`${process.env.REACT_APP_BACKEND_URL}/${item.img}`}
+          //   src={`data:image/${item.img.contentType};base64,
+          // ${item.img.data}`}
         />
       </Link>
       <Box display="flex" justifyContent="space-between" padding="0.5rem">

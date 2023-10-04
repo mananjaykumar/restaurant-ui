@@ -170,11 +170,16 @@ function Item(props: any) {
             height: { xs: "220px", sm: "250px" },
           }}
           // src={props.item.image}
+          // src={
+          //   defaultItems
+          //     ? "https://app.lssquare.com/static/media/empty_product_banner.c076afe7.png"
+          //     : `data:image/${item.img.contentType};base64,
+          // ${item.img.data}`
+          // }
           src={
             defaultItems
               ? "https://app.lssquare.com/static/media/empty_product_banner.c076afe7.png"
-              : `data:image/${item.img.contentType};base64,
-          ${item.img.data}`
+              : `${process.env.REACT_APP_BACKEND_URL}/${item.img}`
           }
         ></Box>
       </Grid>
