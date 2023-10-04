@@ -170,13 +170,13 @@ function Item(props: any) {
             height: {
               xs: "220px",
               sm: "250px",
-              marginRight: {
-                xs: "auto",
-                sm: "auto",
-                md: "auto",
-                lg: "auto",
-                xl: 0,
-              },
+            },
+            marginRight: {
+              xs: "auto",
+              sm: "auto",
+              md: "auto",
+              lg: "auto",
+              xl: 0,
             },
           }}
           // src={props.item.image}
