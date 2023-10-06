@@ -118,6 +118,7 @@ const AdminProducts = () => {
 
   const fetchCategories = () => {
     setCategoryLoading(true);
+    setSubCategoryLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/categories`)
       .then((res) => {
@@ -131,7 +132,6 @@ const AdminProducts = () => {
       });
   };
   const fetchSubCategories = () => {
-    setSubCategoryLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/sub-categories`)
       .then((res) => {
