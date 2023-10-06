@@ -16,6 +16,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { setProgress } from "../../../store/slices/ProgressSlice";
 import { useDispatch } from "react-redux";
+import theme from "../../../theme";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -146,7 +147,6 @@ const AdminProducts = () => {
     fetchCategories();
     fetchSubCategories();
   }, []);
-  console.log("categoryState: " + categoryState);
   return (
     <Stack
       sx={{
@@ -163,14 +163,15 @@ const AdminProducts = () => {
       <Stack
         sx={{
           margin: { sm: "0px 64px", xs: "0px 20px", md: "64px 192px" },
+          padding: "10px",
           display: "flex",
           flexDirection: "column",
           gap: "2.5rem",
-          height: "450px",
-          overflow: "auto",
-          "::-webkit-scrollbar": {
-            display: "none",
-          },
+          // height: "450px",
+          // overflow: "auto",
+          // "::-webkit-scrollbar": {
+          //   display: "none",
+          // },
         }}
       >
         <Stack>
@@ -260,6 +261,26 @@ const AdminProducts = () => {
               label={categoryLoading ? "Loading" : "Category"}
               onChange={handleChange}
               disabled={categoryLoading}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    "& .MuiList-root": {
+                      padding: "5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: theme.spacing(0.6),
+                    },
+                    "& .MuiMenuItem-root": {
+                      backgroundColor: theme.palette.grey[100],
+                      borderRadius: "4px",
+                      fontSize: "13px",
+                      "&:hover": {
+                        backgroundColor: "#EDF5FF",
+                      },
+                    },
+                  },
+                },
+              }}
             >
               {categoryState?.map((item: any) => {
                 return (
@@ -281,6 +302,26 @@ const AdminProducts = () => {
               label={subCategoryLoading ? "Loading" : "Sub Category"}
               onChange={handleChangeSubCategory}
               disabled={subCategoryLoading}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    "& .MuiList-root": {
+                      padding: "5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: theme.spacing(0.6),
+                    },
+                    "& .MuiMenuItem-root": {
+                      backgroundColor: theme.palette.grey[100],
+                      borderRadius: "4px",
+                      fontSize: "13px",
+                      "&:hover": {
+                        backgroundColor: "#EDF5FF",
+                      },
+                    },
+                  },
+                },
+              }}
             >
               {subCategoryState?.map((item: any) => {
                 return (

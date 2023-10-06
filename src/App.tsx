@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 // import Sidebar from "./components/Layout/Sidebar";
 import { Stack } from "@mui/material";
 import TopAppBar from "./components/Layout/TopAppBar";
@@ -37,21 +37,18 @@ const HOC = ({ children }: Props) => {
   );
 };
 const HOCAdmin = ({ children }: Props) => {
-  return (
-    <>
-      <NewSidebarMain>{children}</NewSidebarMain>
-    </>
-  );
+  return <NewSidebarMain>{children}</NewSidebarMain>;
 };
 
 function App() {
   const { userData } = useSelector((state: any) => state.auth);
+  const location = useLocation();
   return (
     <div style={{ display: "flex" }}>
       {/* <Sidebar /> */}
       <div style={{ flex: 1 }}>
         {/* <TopAppBar /> */}
-        <Stack mt="130px">
+        <Stack mt={location.pathname.includes("admin") ? "90px" : "130px"}>
           <Routes>
             <Route
               path="/"

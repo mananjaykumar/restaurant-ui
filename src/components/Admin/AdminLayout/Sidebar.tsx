@@ -29,8 +29,8 @@ import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import ClassIcon from '@mui/icons-material/Class';
-import CategoryIcon from '@mui/icons-material/Category';
+import ClassIcon from "@mui/icons-material/Class";
+import CategoryIcon from "@mui/icons-material/Category";
 // import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import AddIcon from "@mui/icons-material/Add";
@@ -947,6 +947,13 @@ export default function Sidebar({ children }: ISidebar) {
         component="main"
         sx={{
           flexGrow: 1,
+          backgroundColor: "white",
+          // height: "100vh",
+          height: "calc(100vh  - 90px)",
+          overflow: "auto",
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
           // marginTop: "-25px",
           // height: {
           //   xs: "450px",
