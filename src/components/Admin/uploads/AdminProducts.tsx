@@ -121,6 +121,7 @@ const AdminProducts = () => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/categories`)
       .then((res) => {
+        fetchSubCategories();
         setCategoryState(res?.data?.data);
         setCategoryLoading(false);
       })
@@ -145,7 +146,6 @@ const AdminProducts = () => {
 
   React.useEffect(() => {
     fetchCategories();
-    fetchSubCategories();
   }, []);
   return (
     <Stack
