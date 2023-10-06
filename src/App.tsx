@@ -21,6 +21,7 @@ import UsersList from "./components/Admin/Users/UsersList";
 import Footer from "./components/Layout/Footer";
 import "aos/dist/aos.css";
 import LoadingBar from "react-top-loading-bar";
+import EnhancedTable from "./components/reusable/MuiTable";
 
 interface Props {
   children: React.ReactNode;
@@ -136,6 +137,21 @@ function App() {
                 element={
                   <HOCAdmin>
                     <AdminMostLoved />
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path={navLinks.R_TEST}
+                element={
+                  <HOCAdmin>
+                    <Stack
+                      sx={{
+                        padding: "5px 20px",
+                        marginTop: "50px",
+                      }}
+                    >
+                      <EnhancedTable />
+                    </Stack>
                   </HOCAdmin>
                 }
               />
