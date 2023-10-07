@@ -22,6 +22,7 @@ import Footer from "./components/Layout/Footer";
 import "aos/dist/aos.css";
 import LoadingBar from "react-top-loading-bar";
 import EnhancedTable from "./components/reusable/MuiTable";
+import Orders from "./components/Admin/Orders";
 
 interface Props {
   children: React.ReactNode;
@@ -151,6 +152,21 @@ function App() {
                       }}
                     >
                       <EnhancedTable />
+                    </Stack>
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path={navLinks.R_ORDERS}
+                element={
+                  <HOCAdmin>
+                    <Stack
+                      sx={{
+                        padding: "5px 20px",
+                        marginTop: "50px",
+                      }}
+                    >
+                      <Orders />
                     </Stack>
                   </HOCAdmin>
                 }

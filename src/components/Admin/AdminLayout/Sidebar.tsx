@@ -947,7 +947,7 @@ export default function Sidebar({ children }: ISidebar) {
         component="main"
         sx={{
           flexGrow: 1,
-          backgroundColor: "white",
+          // backgroundColor: "white",
           // height: "100vh",
           height: "calc(100vh  - 90px)",
           overflow: "auto",

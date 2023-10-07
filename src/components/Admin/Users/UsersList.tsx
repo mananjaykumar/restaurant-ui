@@ -14,6 +14,7 @@ import AddAdmin from "./AddAdmin";
 import { Debounce } from "../../../utils/Debounce";
 import { setProgress } from "../../../store/slices/ProgressSlice";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
 
 interface Users {
   data: any[];
@@ -195,8 +196,8 @@ const UsersList = () => {
                     {user?.role.sort().join(",")}
                   </TableCell>
                   <TableCell>{user?.phone}</TableCell>
-                  <TableCell>{user?.createdAt}</TableCell>
-                  <TableCell>{user?.updatedAt}</TableCell>
+                  <TableCell>{dayjs(user?.createdAt).format("LLL")}</TableCell>
+                  <TableCell>{dayjs(user?.updatedAt).format("LLL")}</TableCell>
                   <TableCell>
                     <CommonMenu {...updatedMenuProps} />
                   </TableCell>
