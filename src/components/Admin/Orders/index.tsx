@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Stack, TableCell, TableRow } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import { Button, Stack, TableCell, TableRow } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -10,6 +10,8 @@ import { Shimmer, tableBorderStyles } from "../../reusable/Shimmer";
 import { CommonMenu } from "../../reusable/CommonMenu";
 import StatusChange from "../../reusable/StatusChange";
 import { socket } from "../../../socket";
+import SearchInput from "../../reusable/SearchInput";
+import { Debounce } from "../../../utils/Debounce";
 
 export interface IDateRangeData {
   startDate: Dayjs | null;
@@ -26,11 +28,95 @@ const Orders = () => {
   const [rowsPerPage, setRowsPerPage] = useState(2);
   const [orders, setOrders] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [isSearchTextAdded, setIsSearchTextAdded] = useState(false);
+  const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const [fieldId, setFieldId] = useState("");
 
   console.log("dateRangeData", dateRangeData);
+
+  const menuItems = {
+    items: [],
+  };
+  const handleMenu = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    _id: string
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setFieldId(_id);
+  };
+
+  const menuProps = {
+    anchorEl,
+    setAnchorEl,
+    open,
+    handleMenu,
+    menuItems,
+  };
+
+  const handleSearchText = (inputText: React.SetStateAction<string>) => {
+    setSearchText(inputText);
+    setIsSearchTextAdded(true);
+  };
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    const _newPage = newPage + 1;
+    setPage(_newPage);
+    let ob: any = {
+      page: _newPage,
+      rowsPerPage: rowsPerPage,
+      startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
+      endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
+    };
+    if (searchText) {
+      ob = {
+        ...ob,
+        search: searchText,
+      };
+    }
+    handleApiCall(ob);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const number = parseInt(event.target.value, 10);
+    setRowsPerPage(number);
+    setPage(1);
+    let ob: any = {
+      page: page,
+      rowsPerPage: number,
+      startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
+      endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
+    };
+    if (searchText) {
+      ob = {
+        ...ob,
+        search: searchText,
+      };
+    }
+    return handleApiCall(ob);
+  };
+
+  const handleApiCall = (postObj: any) => {
+    setLoading(true);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`, {
+        ...postObj,
+        // startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
+        // endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
+      })
+      .then((res) => {
+        console.log("res", res);
+        setOrders(res?.data?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+        setLoading(false);
+      });
+  };
 
   const propsData = {
     columns: [
@@ -55,53 +141,31 @@ const Orders = () => {
     //   },
     // },
     info: orders,
-    handleChangePage: () => {},
-    handleChangeRowsPerPage: () => {},
-    height: "calc(100vh - 270px)",
+    handleChangePage: handleChangePage,
+    handleChangeRowsPerPage: handleChangeRowsPerPage,
+    height: "calc(100vh - 320px)",
     msg: "No matching Orders",
     subMsg: "We could not find any Orders matching your search",
   };
 
-  const menuItems = {
-    items: [],
-  };
-  const handleMenu = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    _id: string
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setFieldId(_id);
-  };
-
-  const menuProps = {
-    anchorEl,
-    setAnchorEl,
-    open,
-    handleMenu,
-    menuItems,
-  };
-
-  const handleApiCall = () => {
-    setLoading(true);
-    axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`, {
-        startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
-        endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
-      })
-      .then((res) => {
-        console.log("res", res);
-        setOrders(res?.data?.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-        setLoading(false);
-      });
-  };
-
+  const call = useCallback(Debounce(handleApiCall, 500), []);
   useEffect(() => {
-    handleApiCall();
-  }, [dateRangeData]);
+    const ob = {
+      page: page,
+      rowsPerPage: rowsPerPage,
+      startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
+      endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
+    };
+    if (isSearchTextAdded) {
+      const ob1 = {
+        ...ob,
+        search: searchText,
+      };
+      call({ ...ob1 });
+    } else {
+      handleApiCall(ob);
+    }
+  }, [dateRangeData, searchText]);
 
   useEffect(() => {
     socket.emit("join", "adminRoom");
@@ -121,12 +185,32 @@ const Orders = () => {
   }, [socket]);
 
   return (
-    <Stack gap={2} direction="column">
+    <Stack gap={1} direction="column">
       <Stack alignSelf="flex-end">
         <CustomDateRangePicker
           dateRangeData={dateRangeData}
           setDateRangeData={setDateRangeData}
         />
+      </Stack>
+      <Stack direction="row" justifyContent="space-between">
+        <Stack>
+          <SearchInput
+            changeAction={handleSearchText}
+            searchValue={searchText}
+            placeholder="Search by Name"
+          />
+        </Stack>
+        {/* <Stack>
+          <Button
+            variant="contained"
+            // startIcon={<AddIcon />}
+            // onClick={() => {
+            //   setAdminDrawer(true);
+            // }}
+          >
+            Admin
+          </Button>
+        </Stack> */}
       </Stack>
 
       <Stack>
