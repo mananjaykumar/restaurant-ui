@@ -33,10 +33,10 @@ const StatusChange = (props: any) => {
     }
   };
 
-  // const checkDisabled = (index: number) => {
-  //   const item = statusArr.filter((it) => it.value === order.status)[0];
-  //   return index < statusArr.indexOf(item);
-  // };
+  const checkDisabled = (index: number) => {
+    const item = statusArr.filter((it) => it.value === order.status)[0];
+    return index < statusArr.indexOf(item);
+  };
   return (
     <Select
       value={order?.status}
@@ -108,7 +108,7 @@ const StatusChange = (props: any) => {
           <MenuItem
             value={item?.value}
             key={item?.label}
-            // disabled={checkDisabled(index)}
+            disabled={checkDisabled(index)}
           >
             {item?.label}
           </MenuItem>
