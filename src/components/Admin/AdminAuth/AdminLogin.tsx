@@ -90,7 +90,7 @@ const AdminLogin = () => {
           }}
         >
           <Stack>
-            <Typography fontSize="24px">Welcome to Admin Portal</Typography>
+            <Typography fontSize="24px">Welcome to Admin Console</Typography>
           </Stack>
           <Stack gap={2}>
             <TextField
