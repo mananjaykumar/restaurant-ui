@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {
-  Paper,
-  Stack,
-  TableCell,
-  TableRow,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Stack, TableCell, TableRow } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 import toast from "react-hot-toast";
+import socketIOClient from "socket.io-client";
 import CustomDateRangePicker from "../../reusable/CustomDateRangePicker";
 import { CommonTable } from "../../reusable/CommonTable";
 import { Shimmer, tableBorderStyles } from "../../reusable/Shimmer";
 import { CommonMenu } from "../../reusable/CommonMenu";
-import { MenuItem } from "@mui/base";
 import StatusChange from "../../reusable/StatusChange";
+import { socket } from "../../../socket";
 
 export interface IDateRangeData {
   startDate: Dayjs | null;
@@ -41,9 +35,13 @@ const Orders = () => {
   const propsData = {
     columns: [
       "Order Id",
+      "Customer",
       "Products",
+      "Address",
+      "Instructions",
       "Order Type",
       "Status",
+      "Amount",
       "Created At",
       "Updated At",
       "",
@@ -105,6 +103,23 @@ const Orders = () => {
     handleApiCall();
   }, [dateRangeData]);
 
+  useEffect(() => {
+    socket.emit("join", "adminRoom");
+    socket.on("orderPlaced", (data) => {
+      console.log("orderPlaced", data);
+      toast.success("New Order Placed");
+      setOrders((prev: any) => {
+        const oldOrders = [...prev.data];
+        console.log("oldOrders", oldOrders);
+        oldOrders.unshift(data);
+        return {
+          ...prev,
+          data: oldOrders,
+        };
+      });
+    });
+  }, [socket]);
+
   return (
     <Stack gap={2} direction="column">
       <Stack alignSelf="flex-end">
@@ -131,11 +146,15 @@ const Orders = () => {
               return (
                 <TableRow key={order._id} sx={{ ...tableBorderStyles }}>
                   <TableCell>{order?._id}</TableCell>
+                  <TableCell>{order?.user?.name}</TableCell>
                   <TableCell>{order?.products}</TableCell>
+                  <TableCell>{order?.address}</TableCell>
+                  <TableCell>{order?.instructions}</TableCell>
                   <TableCell>{order?.order_type}</TableCell>
                   <TableCell>
-                    <StatusChange order={order} />
+                    <StatusChange order={order} handleApiCall={handleApiCall} />
                   </TableCell>
+                  <TableCell>&#8377;{order?.amount}</TableCell>
                   <TableCell>{dayjs(order?.createdAt).format("LLL")}</TableCell>
                   <TableCell>{dayjs(order?.updatedAt).format("LLL")}</TableCell>
                   <TableCell>

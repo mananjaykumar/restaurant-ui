@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 // import Sidebar from "./components/Layout/Sidebar";
@@ -23,6 +23,8 @@ import "aos/dist/aos.css";
 import LoadingBar from "react-top-loading-bar";
 import EnhancedTable from "./components/reusable/MuiTable";
 import Orders from "./components/Admin/Orders";
+import { socket } from "./socket";
+import NewOrder from "./components/Orders/NewOrder";
 
 interface Props {
   children: React.ReactNode;
@@ -45,6 +47,12 @@ const HOCAdmin = ({ children }: Props) => {
 function App() {
   const { userData } = useSelector((state: any) => state.auth);
   const location = useLocation();
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connection established");
+    });
+  });
   return (
     <div style={{ display: "flex" }}>
       {/* <Sidebar /> */}
@@ -85,6 +93,16 @@ function App() {
                 element={
                   <HOC>
                     <Users />
+                  </HOC>
+                }
+              />
+
+              {/* Temporary Route */}
+              <Route
+                path="/place-order"
+                element={
+                  <HOC>
+                    <NewOrder />
                   </HOC>
                 }
               />
