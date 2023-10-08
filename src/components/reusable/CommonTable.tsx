@@ -140,7 +140,7 @@ export const CommonTable = (props: ITable) => {
     fromModelConfiguration,
     hideLogo = false,
     sx = {},
-    rowsPerPageOptions = [2, 4, 6],
+    rowsPerPageOptions = [25, 50, 75],
     headerColor,
     handleDrag,
     showDragIndicator,

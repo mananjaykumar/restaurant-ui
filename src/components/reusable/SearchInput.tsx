@@ -11,6 +11,7 @@ interface SearchProps {
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   fromFacetsCuration?: boolean;
+  disabled?: boolean;
 }
 
 export const borderStyles = {
@@ -47,6 +48,7 @@ const SearchInput = (props: SearchProps) => {
     placeholder = "Search for a word",
     onKeyUp,
     fromFacetsCuration,
+    disabled,
   } = props;
   return (
     <>
@@ -55,6 +57,7 @@ const SearchInput = (props: SearchProps) => {
         onChange={(e) => changeAction(e.target.value)}
         autoComplete="off"
         placeholder={placeholder}
+        disabled={disabled}
         startAdornment={<SearchIcon sx={{ color: theme.palette.grey[500] }} />}
         endAdornment={
           searchValue && (
@@ -70,6 +73,9 @@ const SearchInput = (props: SearchProps) => {
         onKeyUp={onKeyUp}
         sx={{
           ...inputStyles,
+          "&:hover": {
+            borderColor: disabled ? "none" : theme.palette.grey[400],
+          },
           ...(fromFacetsCuration && {
             minWidth: "",
           }),

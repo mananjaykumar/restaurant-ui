@@ -25,7 +25,7 @@ const Orders = () => {
     endDate: dayjs(),
     pastDate: "last_7_days",
   });
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [orders, setOrders] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -100,10 +100,17 @@ const Orders = () => {
   };
 
   const handleApiCall = (postObj: any) => {
+    const obj = {
+      startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
+      endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
+      page,
+      rowsPerPage,
+      ...postObj,
+    };
     setLoading(true);
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`, {
-        ...postObj,
+        ...obj,
         // startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
         // endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
       })
@@ -197,7 +204,8 @@ const Orders = () => {
           <SearchInput
             changeAction={handleSearchText}
             searchValue={searchText}
-            placeholder="Search by Name"
+            placeholder="Search by Order Id"
+            disabled={true}
           />
         </Stack>
         {/* <Stack>

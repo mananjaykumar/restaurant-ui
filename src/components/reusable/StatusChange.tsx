@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Select, SelectChangeEvent, MenuItem } from "@mui/material";
 import theme from "../../theme";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const statusArr = [
-  { label: "ORDER PLACED", value: "ORDER_PLACED" },
-  { label: "PREPARING", value: "PREPARING" },
-  { label: "ON THE WAY", value: "ON_THE_WAY" },
-  { label: "COMPLETED", value: "COMPLETED" },
+  { label: "ORDER PLACED", value: "ORDER_PLACED", color: "#077E8C" },
+  { label: "PREPARING", value: "PREPARING", color: "#F29339" },
+  { label: "ON THE WAY", value: "ON_THE_WAY", color: "#634430" },
+  { label: "COMPLETED", value: "COMPLETED", color: "#198754" },
+  { label: "CANCELLED", value: "CANCELLED", color: "#FF0000" },
 ];
+
+const getColor = (value: string) => {
+  const item = statusArr.find((it) => it.value === value);
+  if (item) {
+    return item.color;
+  }
+  return "";
+};
 
 const StatusChange = (props: any) => {
   const { order, handleApiCall } = props;
+  const [color, setColor] = useState<string>(getColor(order.status));
 
   const handleStatusChange = (event: SelectChangeEvent) => {
     const item = statusArr.find((item) => item.value === event.target.value);
@@ -24,6 +34,7 @@ const StatusChange = (props: any) => {
           status: item.value,
         })
         .then((res) => {
+          setColor(getColor(item?.value));
           toast.success(res?.data?.message);
           handleApiCall();
         })
@@ -37,14 +48,18 @@ const StatusChange = (props: any) => {
     const item = statusArr.filter((it) => it.value === order.status)[0];
     return index < statusArr.indexOf(item);
   };
+
   return (
     <Select
       value={order?.status}
       onChange={handleStatusChange}
+      disabled={order?.status === "COMPLETED" || order?.status === "CANCELLED"}
       sx={{
         backgroundColor: theme.palette.grey[100],
         padding: "2px",
         width: "150px",
+        color: color,
+        fontWeight: 600,
         "& .MuiOutlinedInput-notchedOutline": {
           border: "none",
         },
@@ -62,6 +77,13 @@ const StatusChange = (props: any) => {
         "& .MuiSelect-icon": {
           fontSize: "2rem",
           right: "4px",
+        },
+        "& .Mui-disabled": {
+          color: "rgba(0, 0, 0, 0.54)",
+        },
+        "& .MuiInputBase-input.Mui-disabled": {
+          color: color,
+          WebkitTextFillColor: color,
         },
       }}
       MenuProps={{
@@ -109,6 +131,7 @@ const StatusChange = (props: any) => {
             value={item?.value}
             key={item?.label}
             disabled={checkDisabled(index)}
+            sx={{ color: item?.color, fontWeight: 600 }}
           >
             {item?.label}
           </MenuItem>

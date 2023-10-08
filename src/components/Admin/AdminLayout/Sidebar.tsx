@@ -34,6 +34,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 // import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import AddIcon from "@mui/icons-material/Add";
+import ReorderOutlinedIcon from "@mui/icons-material/ReorderOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import * as navLinks from "../../../routes/constants";
 import { AppBar } from "./AppBar";
@@ -503,6 +504,14 @@ export default function Sidebar({ children }: ISidebar) {
       items: menuItems2,
       collapsable: true,
       collapseOpen: false,
+    },
+    {
+      label: "Orders",
+      icon: <ReorderOutlinedIcon />,
+      items: menuItems2,
+      collapsable: false,
+      collapseOpen: false,
+      link: navLinks.R_ORDERS,
     },
   ]);
 

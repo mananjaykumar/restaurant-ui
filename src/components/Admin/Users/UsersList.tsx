@@ -31,7 +31,7 @@ const UsersList = () => {
   const [loading, setLoading] = useState(false);
   const [adminDrawer, setAdminDrawer] = useState(false);
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const [fieldId, setFieldId] = useState("");

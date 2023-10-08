@@ -81,7 +81,6 @@ const NewOrder = () => {
             }}
           />
           <TextField
-            autoFocus
             variant="outlined"
             label="Status*"
             value={newOrderState.status}
@@ -96,7 +95,6 @@ const NewOrder = () => {
             }}
           />
           <TextField
-            autoFocus
             variant="outlined"
             label="Instructions*"
             value={newOrderState.instructions}
@@ -111,7 +109,6 @@ const NewOrder = () => {
             }}
           />
           <TextField
-            autoFocus
             variant="outlined"
             label="Amount*"
             type="number"
@@ -127,7 +124,6 @@ const NewOrder = () => {
             }}
           />
           <TextField
-            autoFocus
             variant="outlined"
             label="Address*"
             value={newOrderState.address}
