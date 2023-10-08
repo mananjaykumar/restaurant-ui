@@ -36,7 +36,7 @@ const Orders = () => {
     columns: [
       "Order Id",
       "Customer",
-      "Products",
+      // "Products",
       "Address",
       "Instructions",
       "Order Type",
@@ -147,7 +147,7 @@ const Orders = () => {
                 <TableRow key={order._id} sx={{ ...tableBorderStyles }}>
                   <TableCell>{order?._id}</TableCell>
                   <TableCell>{order?.user?.name}</TableCell>
-                  <TableCell>{order?.products}</TableCell>
+                  {/* <TableCell>{order?.products}</TableCell> */}
                   <TableCell>{order?.address}</TableCell>
                   <TableCell>{order?.instructions}</TableCell>
                   <TableCell>{order?.order_type}</TableCell>

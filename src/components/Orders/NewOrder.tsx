@@ -3,16 +3,18 @@ import { Button, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { setProgress } from "../../store/slices/ProgressSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const NewOrder = () => {
   const dispatch = useDispatch();
+  const { userData } = useSelector((state: any) => state.auth);
   const [newOrderState, setNewOrderState] = useState({
     order_type: "",
     status: "",
     instructions: "",
-    amount: 0,
+    amount: "",
     address: "",
+    user: userData._id,
   });
   const [loading, setLoading] = useState(false);
 
@@ -119,7 +121,7 @@ const NewOrder = () => {
               setNewOrderState((prev) => {
                 return {
                   ...prev,
-                  amount: Number(e.target.value),
+                  amount: e.target.value,
                 };
               });
             }}
