@@ -12,6 +12,8 @@ import StatusChange from "../../reusable/StatusChange";
 import { socket } from "../../../socket";
 import SearchInput from "../../reusable/SearchInput";
 import { Debounce } from "../../../utils/Debounce";
+import { useDispatch } from "react-redux";
+import { setProgress } from "../../../store/slices/ProgressSlice";
 
 export interface IDateRangeData {
   startDate: Dayjs | null;
@@ -20,6 +22,7 @@ export interface IDateRangeData {
 }
 
 const Orders = () => {
+  const dispatch = useDispatch();
   const [dateRangeData, setDateRangeData] = useState<IDateRangeData>({
     startDate: dayjs().subtract(7, "day"),
     endDate: dayjs(),
@@ -100,6 +103,7 @@ const Orders = () => {
   };
 
   const handleApiCall = (postObj: any) => {
+    dispatch(setProgress({ progress: 10 }));
     const obj = {
       startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
       endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
@@ -108,6 +112,7 @@ const Orders = () => {
       ...postObj,
     };
     setLoading(true);
+    dispatch(setProgress({ progress: 30 }));
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/orders`, {
         ...obj,
@@ -115,13 +120,15 @@ const Orders = () => {
         // endDate: dayjs(dateRangeData.endDate).format("YYYY-MM-DDTHH:mm:ss"),
       })
       .then((res) => {
-        console.log("res", res);
+        dispatch(setProgress({ progress: 70 }));
         setOrders(res?.data?.data);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       })
       .catch((err) => {
         toast.error(err.response.data.message);
         setLoading(false);
+        dispatch(setProgress({ progress: 100 }));
       });
   };
 
