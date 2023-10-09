@@ -45,7 +45,7 @@ const pastDateArray = [
       //   const startOfNextMonth = today.endOf("month").add(1, "day");
       return [
         today.subtract(30, "day").startOf("month"),
-        today.startOf("month").subtract(1, "day"),
+        today.startOf("month").subtract(1, "day").endOf("day"),
       ];
     },
   },
