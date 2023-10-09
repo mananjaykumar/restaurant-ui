@@ -53,13 +53,13 @@ const pastDateArray = [
     label: "Custom",
     value: "custom",
     getValue: () => {
-      return [];
+      const today = dayjs();
+      return [today, today.add(1, "day")];
     },
   },
 ];
 
 const DateMenu = (props: any) => {
-    
   const handleChange = (event: SelectChangeEvent) => {
     const Item = pastDateArray.find(
       (item) => item.value === event.target.value
