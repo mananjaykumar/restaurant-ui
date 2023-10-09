@@ -38,26 +38,7 @@ const Orders = () => {
   const open = Boolean(anchorEl);
   const [fieldId, setFieldId] = useState("");
 
-  console.log("dateRangeData", dateRangeData);
-
-  const menuItems = {
-    items: [],
-  };
-  const handleMenu = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    _id: string
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setFieldId(_id);
-  };
-
-  const menuProps = {
-    anchorEl,
-    setAnchorEl,
-    open,
-    handleMenu,
-    menuItems,
-  };
+  // console.log("dateRangeData", dateRangeData);
 
   const handleSearchText = (inputText: React.SetStateAction<string>) => {
     setSearchText(inputText);
@@ -102,7 +83,7 @@ const Orders = () => {
     return handleApiCall(ob);
   };
 
-  const handleApiCall = (postObj: any) => {
+  const handleApiCall = (postObj?: any) => {
     dispatch(setProgress({ progress: 10 }));
     const obj = {
       startDate: dayjs(dateRangeData.startDate).format("YYYY-MM-DDTHH:mm:ss"),
@@ -132,6 +113,44 @@ const Orders = () => {
       });
   };
 
+  const handleDelete = () => {
+    setAnchorEl(null);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/delete-order`, {
+        order_id: fieldId,
+      })
+      .then((res) => {
+        handleApiCall();
+        toast.success(res?.data?.message);
+      })
+      .catch((err) => {
+        toast.success(err?.response?.data?.message);
+      });
+    setFieldId("");
+    setAnchorEl(null);
+  };
+
+  const menuItems = {
+    items: [
+      { displayName: "Delete", disable: false, handlerFunc: handleDelete },
+    ],
+  };
+  const handleMenu = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    _id: string
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setFieldId(_id);
+  };
+
+  const menuProps = {
+    anchorEl,
+    setAnchorEl,
+    open,
+    handleMenu,
+    menuItems,
+  };
+
   const propsData = {
     columns: [
       "Order Id",
@@ -157,7 +176,7 @@ const Orders = () => {
     info: orders,
     handleChangePage: handleChangePage,
     handleChangeRowsPerPage: handleChangeRowsPerPage,
-    height: "calc(100vh - 320px)",
+    height: "calc(100vh - 260px)",
     msg: "No matching Orders",
     subMsg: "We could not find any Orders matching your search",
   };
@@ -200,12 +219,12 @@ const Orders = () => {
 
   return (
     <Stack gap={1} direction="column">
-      <Stack alignSelf="flex-end">
+      {/* <Stack alignSelf="flex-end">
         <CustomDateRangePicker
           dateRangeData={dateRangeData}
           setDateRangeData={setDateRangeData}
         />
-      </Stack>
+      </Stack> */}
       <Stack direction="row" justifyContent="space-between">
         <Stack>
           <SearchInput
@@ -213,6 +232,12 @@ const Orders = () => {
             searchValue={searchText}
             placeholder="Search by Order Id"
             disabled={true}
+          />
+        </Stack>
+        <Stack>
+          <CustomDateRangePicker
+            dateRangeData={dateRangeData}
+            setDateRangeData={setDateRangeData}
           />
         </Stack>
         {/* <Stack>
