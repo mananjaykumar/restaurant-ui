@@ -24,8 +24,8 @@ export interface IDateRangeData {
 const Orders = () => {
   const dispatch = useDispatch();
   const [dateRangeData, setDateRangeData] = useState<IDateRangeData>({
-    startDate: dayjs().subtract(7, "day"),
-    endDate: dayjs(),
+    startDate: dayjs().startOf("day").subtract(7, "day"),
+    endDate: dayjs().endOf("day"),
     pastDate: "last_7_days",
   });
   const [rowsPerPage, setRowsPerPage] = useState(25);

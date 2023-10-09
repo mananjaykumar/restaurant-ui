@@ -8,7 +8,7 @@ const pastDateArray = [
     label: "This Week",
     value: "this_week",
     getValue: () => {
-      const today = dayjs();
+      const today = dayjs().startOf("day");
       return [today.startOf("week"), today.endOf("week")];
     },
   },
@@ -16,7 +16,7 @@ const pastDateArray = [
     label: "Last Week",
     value: "last_week",
     getValue: () => {
-      const today = dayjs();
+      const today = dayjs().startOf("day");
       const prevWeek = today.subtract(7, "day");
       return [prevWeek.startOf("week"), prevWeek.endOf("week")];
     },
@@ -25,15 +25,15 @@ const pastDateArray = [
     label: "Last 7 Days",
     value: "last_7_days",
     getValue: () => {
-      const today = dayjs();
-      return [today.subtract(7, "day"), today];
+      const today = dayjs().startOf("day");
+      return [today.subtract(7, "day"), today.endOf("day")];
     },
   },
   {
     label: "Current Month",
     value: "current_month",
     getValue: () => {
-      const today = dayjs();
+      const today = dayjs().startOf("day");
       return [today.startOf("month"), today.endOf("month")];
     },
   },
@@ -41,7 +41,7 @@ const pastDateArray = [
     label: "Prev Month",
     value: "prev_month",
     getValue: () => {
-      const today = dayjs();
+      const today = dayjs().startOf("day");
       //   const startOfNextMonth = today.endOf("month").add(1, "day");
       return [
         today.subtract(30, "day").startOf("month"),
@@ -53,7 +53,7 @@ const pastDateArray = [
     label: "Custom",
     value: "custom",
     getValue: () => {
-      const today = dayjs();
+      const today = dayjs().startOf("day");
       return [today, today.add(1, "day")];
     },
   },
