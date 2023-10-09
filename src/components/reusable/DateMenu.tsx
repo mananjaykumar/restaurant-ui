@@ -54,7 +54,7 @@ const pastDateArray = [
     value: "custom",
     getValue: () => {
       const today = dayjs().startOf("day");
-      return [today, today.add(1, "day")];
+      return [today, today.add(1, "day").endOf("day")];
     },
   },
 ];
