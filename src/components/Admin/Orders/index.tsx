@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Button, Stack, TableCell, TableRow } from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
+import { Stack, TableCell, TableRow } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 import toast from "react-hot-toast";
-import socketIOClient from "socket.io-client";
 import CustomDateRangePicker from "../../reusable/CustomDateRangePicker";
 import { CommonTable } from "../../reusable/CommonTable";
 import { Shimmer, tableBorderStyles } from "../../reusable/Shimmer";
@@ -23,7 +22,6 @@ export interface IDateRangeData {
 
 const Orders = () => {
   const dispatch = useDispatch();
-  const didMount = useRef(false);
   const [dateRangeData, setDateRangeData] = useState<IDateRangeData>({
     startDate: dayjs().startOf("day").subtract(7, "day"),
     endDate: dayjs().endOf("day"),
@@ -201,27 +199,21 @@ const Orders = () => {
     }
   }, [dateRangeData, searchText]);
 
-  console.log("didMount", didMount);
-
   useEffect(() => {
     socket.emit("join", "adminRoom");
     socket.on("orderPlaced", (data) => {
-      if (didMount.current) {
-        console.log("orderPlaced", data);
-        toast.success("New Order Placed");
-        setOrders((prev: any) => {
-          const oldOrders = [...prev.data];
-          // console.log("oldOrders", oldOrders);
-          oldOrders.unshift(data.data);
-          return {
-            ...prev,
-            data: oldOrders,
-            meta: data.meta,
-          };
-        });
-      } else {
-        didMount.current = true;
-      }
+      console.log("orderPlaced", data);
+      toast.success("New Order Placed");
+      setOrders((prev: any) => {
+        const oldOrders = [...prev.data];
+        // console.log("oldOrders", oldOrders);
+        oldOrders.unshift(data.data);
+        return {
+          ...prev,
+          data: oldOrders,
+          meta: data.meta,
+        };
+      });
     });
   }, [socket]);
 
