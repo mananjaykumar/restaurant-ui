@@ -201,6 +201,8 @@ const Orders = () => {
     }
   }, [dateRangeData, searchText]);
 
+  console.log("didMount", didMount);
+
   useEffect(() => {
     socket.emit("join", "adminRoom");
     if (didMount.current) {
