@@ -202,8 +202,8 @@ const Orders = () => {
   }, [dateRangeData, searchText]);
 
   useEffect(() => {
+    socket.emit("join", "adminRoom");
     if (didMount.current) {
-      socket.emit("join", "adminRoom");
       socket.on("orderPlaced", (data) => {
         console.log("orderPlaced", data);
         toast.success("New Order Placed");
