@@ -205,8 +205,8 @@ const Orders = () => {
 
   useEffect(() => {
     socket.emit("join", "adminRoom");
-    if (didMount.current) {
-      socket.on("orderPlaced", (data) => {
+    socket.on("orderPlaced", (data) => {
+      if (didMount.current) {
         console.log("orderPlaced", data);
         toast.success("New Order Placed");
         setOrders((prev: any) => {
@@ -219,10 +219,10 @@ const Orders = () => {
             meta: data.meta,
           };
         });
-      });
-    } else {
-      didMount.current = true;
-    }
+      } else {
+        didMount.current = true;
+      }
+    });
   }, [socket]);
 
   return (
