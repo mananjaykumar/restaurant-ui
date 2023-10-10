@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button, Stack, TableCell, TableRow } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
@@ -23,6 +23,7 @@ export interface IDateRangeData {
 
 const Orders = () => {
   const dispatch = useDispatch();
+  const didMount = useRef(false);
   const [dateRangeData, setDateRangeData] = useState<IDateRangeData>({
     startDate: dayjs().startOf("day").subtract(7, "day"),
     endDate: dayjs().endOf("day"),
@@ -201,20 +202,25 @@ const Orders = () => {
   }, [dateRangeData, searchText]);
 
   useEffect(() => {
-    socket.emit("join", "adminRoom");
-    socket.on("orderPlaced", (data) => {
-      console.log("orderPlaced", data);
-      toast.success("New Order Placed");
-      setOrders((prev: any) => {
-        const oldOrders = [...prev.data];
-        console.log("oldOrders", oldOrders);
-        oldOrders.unshift(data);
-        return {
-          ...prev,
-          data: oldOrders,
-        };
+    if (didMount.current) {
+      socket.emit("join", "adminRoom");
+      socket.on("orderPlaced", (data) => {
+        console.log("orderPlaced", data);
+        toast.success("New Order Placed");
+        setOrders((prev: any) => {
+          const oldOrders = [...prev.data];
+          // console.log("oldOrders", oldOrders);
+          oldOrders.unshift(data.data);
+          return {
+            ...prev,
+            data: oldOrders,
+            meta: data.meta,
+          };
+        });
       });
-    });
+    } else {
+      didMount.current = true;
+    }
   }, [socket]);
 
   return (
@@ -268,7 +274,7 @@ const Orders = () => {
                 item: order,
               };
               return (
-                <TableRow key={order._id} sx={{ ...tableBorderStyles }}>
+                <TableRow key={order?._id} sx={{ ...tableBorderStyles }}>
                   <TableCell>{order?._id}</TableCell>
                   <TableCell>{order?.user?.name}</TableCell>
                   {/* <TableCell>{order?.products}</TableCell> */}

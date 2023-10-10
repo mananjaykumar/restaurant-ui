@@ -22,7 +22,7 @@ const getColor = (value: string) => {
 
 const StatusChange = (props: any) => {
   const { order, handleApiCall } = props;
-  const [color, setColor] = useState<string>(getColor(order.status));
+  const [color, setColor] = useState<string>(getColor(order?.status));
 
   const handleStatusChange = (event: SelectChangeEvent) => {
     const item = statusArr.find((item) => item.value === event.target.value);
@@ -45,7 +45,7 @@ const StatusChange = (props: any) => {
   };
 
   const checkDisabled = (index: number) => {
-    const item = statusArr.filter((it) => it.value === order.status)[0];
+    const item = statusArr.filter((it) => it.value === order?.status)[0];
     return index < statusArr.indexOf(item);
   };
 
