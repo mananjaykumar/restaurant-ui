@@ -13,6 +13,7 @@ import SearchInput from "../../reusable/SearchInput";
 import { Debounce } from "../../../utils/Debounce";
 import { useDispatch } from "react-redux";
 import { setProgress } from "../../../store/slices/ProgressSlice";
+import NewCommonTable from "../../reusable/NewCommonTable";
 
 export interface IDateRangeData {
   startDate: Dayjs | null;
@@ -152,18 +153,52 @@ const Orders = () => {
 
   const propsData = {
     columns: [
-      "Order Id",
-      "Customer",
-      // "Products",
-      "Address",
-      "Instructions",
-      "Order Type",
-      "Status",
-      "Amount",
-      "Created At",
-      "Updated At",
-      "",
+      {
+        label: "Order Id",
+        // numeric: false,
+      },
+      {
+        label: "Customer",
+        // numeric: false,
+      },
+      {
+        label: "Address",
+        // numeric: false,
+      },
+      {
+        label: "Instructions",
+        // numeric: false,
+      },
+      {
+        label: "Order Type",
+        // numeric: false,
+      },
+      {
+        label: "Status",
+        // numeric: false,
+      },
+      {
+        label: "Amount",
+        // numeric: false,
+      },
+      {
+        label: "Created At",
+        // numeric: false,
+      },
+      {
+        label: "Updated At",
+        // numeric: false,
+      },
+      {
+        label: "",
+        // numeric: false,
+      },
+      // {
+      //   label: "Products",
+      //   numeric: false,
+      // },
     ],
+    page,
     rowsPerPage: rowsPerPage,
     // info: {
     //   data: users,
@@ -178,6 +213,8 @@ const Orders = () => {
     height: "calc(100vh - 260px)",
     msg: "No matching Orders",
     subMsg: "We could not find any Orders matching your search",
+    dense: true,
+    handleRequestSort: () => {},
   };
 
   const call = useCallback(Debounce(handleApiCall, 500), []);
@@ -289,6 +326,51 @@ const Orders = () => {
             })}
         </CommonTable>
       </Stack>
+
+      {/* New Table */}
+      {/* <Stack>
+        <NewCommonTable {...propsData}>
+          {loading && (
+            <Shimmer
+              length={propsData?.columns?.length}
+              colsWidth={["60%", "10%", "17%", "12%", "1%"]}
+            />
+          )}
+          {!loading &&
+            orders?.data?.map((order: any) => {
+              const updatedMenuProps = {
+                ...menuProps,
+                item: order,
+              };
+              return (
+                <TableRow
+                  key={order?._id}
+                  sx={{
+                    ...tableBorderStyles,
+                    verticalAlign:
+                      orders?.data?.length === 1 ? "top" : "center",
+                  }}
+                >
+                  <TableCell>{order?._id}</TableCell>
+                  <TableCell>{order?.user?.name}</TableCell>
+                  <TableCell>{order?.products}</TableCell>
+                  <TableCell>{order?.address}</TableCell>
+                  <TableCell>{order?.instructions}</TableCell>
+                  <TableCell>{order?.order_type}</TableCell>
+                  <TableCell>
+                    <StatusChange order={order} handleApiCall={handleApiCall} />
+                  </TableCell>
+                  <TableCell>&#8377;{order?.amount}</TableCell>
+                  <TableCell>{dayjs(order?.createdAt).format("LLL")}</TableCell>
+                  <TableCell>{dayjs(order?.updatedAt).format("LLL")}</TableCell>
+                  <TableCell>
+                    <CommonMenu {...updatedMenuProps} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+        </NewCommonTable>
+      </Stack> */}
     </Stack>
   );
 };

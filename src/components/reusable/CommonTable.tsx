@@ -289,14 +289,14 @@ export const CommonTable = (props: ITable) => {
                           justifyContent="space-between"
                           alignItems="center"
                         >
-                          {includingHeaderList?.includes(item?.name) ? (
+                          {includingHeaderList?.includes(item?.label) ? (
                             <TableSortLabel
-                              active={sortBy === item?.name}
+                              active={sortBy === item?.label}
                               direction={order === -1 ? "desc" : "asc"}
-                              onClick={() => sortHandler(item?.name)}
+                              onClick={() => sortHandler(item?.label)}
                             >
                               <Typography fontWeight={600} fontSize="14px">
-                                {item?.name}
+                                {item?.label}
                               </Typography>
                             </TableSortLabel>
                           ) : (
@@ -319,9 +319,12 @@ export const CommonTable = (props: ITable) => {
                                   display: "flex",
                                   gap: "0.5rem",
                                   alignItems: "center",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
                                 }}
                               >
-                                {item.name}
+                                {item.label}
                                 {/* {item?.helperTextRequired && (
                                   <MuiHtmlTooltip
                                     title={
@@ -415,7 +418,7 @@ export const CommonTable = (props: ITable) => {
             rowsPerPageOptions={rowsPerPageOptions}
             sx={{
               [`& .${tablePaginationClasses.actions}`]: {
-                color: theme.palette.secondary.main,
+                color: theme.palette.primary.main,
               },
               [`& .${tablePaginationClasses.displayedRows}`]: {
                 fontWeight: 600,
