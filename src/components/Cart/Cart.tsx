@@ -59,7 +59,7 @@ const Cart = (props: any) => {
           sx={{
             position: "fixed",
             bottom: 0,
-            width: "87%",
+            width: "380px",
             backgroundColor: "#ffff",
             justifyContent: "center",
             padding: "20px 0px",
@@ -67,6 +67,7 @@ const Cart = (props: any) => {
           }}
         >
           <Button
+            fullWidth
             color="error"
             variant="contained"
             sx={{
@@ -75,7 +76,6 @@ const Cart = (props: any) => {
               // padding: "6px 16px",
               marginBottom: "12px",
             }}
-            fullWidth
             onClick={() => {
               // dispatch(createOrder());
               navigate(navLinks.CHECKOUT);
