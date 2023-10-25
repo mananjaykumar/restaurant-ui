@@ -1,3 +1,8 @@
+export const ROOT = "/";
+export const CHECKOUT = "/user/checkout";
+export const DASHBOARD = "/user/dashboard";
+export const ORDERS = "/user/orders";
+
 // Admin Routes
 export const R_ROOT = "/admin";
 export const R_ADD_CATEGORY = "/admin/add/category";

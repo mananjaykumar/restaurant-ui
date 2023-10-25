@@ -30,6 +30,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/slices/AuthSlice";
 import toast from "react-hot-toast";
 import { toggleLoginDrawer } from "../../store/slices/TogglerSlice";
+import Cart from "../Cart/Cart";
+import * as routes from "../../routes/constants";
 
 // const pages = ["Products", "Pricing", "Blog"];
 
@@ -49,7 +51,10 @@ function TopAppBar() {
     null
   );
   const [openUserDrawer, setOpenUserDrawer] = React.useState(false);
-  const count = useSelector((state: any) => state?.auth?.userData?.cart?.cartProductsCount);
+  const [openCartDrawer, setOpenCartDrawer] = React.useState(false);
+  const count = useSelector(
+    (state: any) => state?.auth?.userData?.cart?.cartProductsCount
+  );
 
   const MenuData = [
     {
@@ -82,11 +87,13 @@ function TopAppBar() {
       name: "Profile",
       icon: <PersonOutlineOutlinedIcon />,
       to: "/profile",
+      drawer: false,
     },
     {
       name: "Orders",
       icon: <ShoppingBagOutlinedIcon />,
-      to: "/profile",
+      to: "/orders",
+      drawer: false,
     },
     {
       name: "Cart",
@@ -95,12 +102,15 @@ function TopAppBar() {
           <ShoppingCartOutlinedIcon />
         </Badge>
       ),
-      to: "/profile",
+      to: "",
+      drawer: true,
+      setOpenDrawer: setOpenCartDrawer,
     },
     {
       name: "Logout",
       icon: <LogoutIcon />,
-      to: "/profile",
+      to: "",
+      drawer: false,
     },
   ];
 
@@ -173,7 +183,9 @@ function TopAppBar() {
                 style={{
                   // height: "37px",
                   height: "47px",
+                  cursor: "pointer",
                 }}
+                onClick={() => navigate(routes.ROOT)}
               />
             </Stack>
 
@@ -311,11 +323,15 @@ function TopAppBar() {
                     <MenuItem
                       key={setting.name}
                       onClick={() => {
-                        if (index === settings.length - 1) {
-                          dispatch(logout());
-                          toast.success("Logged Out Successfully!");
+                        if (setting.drawer && setting.setOpenDrawer) {
+                          setting.setOpenDrawer(true);
                         } else {
-                          navigate(setting.to);
+                          if (index === settings.length - 1) {
+                            dispatch(logout());
+                            toast.success("Logged Out Successfully!");
+                          } else {
+                            navigate(setting.to);
+                          }
                         }
                         handleCloseUserMenu();
                       }}
@@ -434,14 +450,28 @@ function TopAppBar() {
           {settings.map((setting, index) => (
             <MenuItem
               key={setting.name}
+              // onClick={() => {
+              //   if (index === settings.length - 1) {
+              //     dispatch(logout());
+              //     toast.success("Logged Out Successfully!");
+              //   } else {
+              //     navigate(setting.to);
+              //   }
+              //   setOpenUserDrawer(false);
+              // }}
               onClick={() => {
-                if (index === settings.length - 1) {
-                  dispatch(logout());
-                  toast.success("Logged Out Successfully!");
+                if (setting.drawer && setting.setOpenDrawer) {
+                  setOpenUserDrawer(false);
+                  setting.setOpenDrawer(true);
                 } else {
-                  navigate(setting.to);
+                  if (index === settings.length - 1) {
+                    dispatch(logout());
+                    toast.success("Logged Out Successfully!");
+                  } else {
+                    navigate(setting.to);
+                  }
                 }
-                setOpenUserDrawer(false);
+                handleCloseUserMenu();
               }}
               sx={{
                 gap: "1rem",
@@ -452,6 +482,19 @@ function TopAppBar() {
               <Typography textAlign="center">{setting.name}</Typography>
             </MenuItem>
           ))}
+        </Stack>
+      </CustomDrawer>
+      <CustomDrawer
+        open={openCartDrawer}
+        handleClose={() => {
+          setOpenCartDrawer(false);
+          // dispatch(toggleLoginDrawer({ open: false }));
+        }}
+        title="Cart"
+        width="420px"
+      >
+        <Stack width="100%" mt={4}>
+          <Cart onClose={setOpenCartDrawer} />
         </Stack>
       </CustomDrawer>
     </AppBar>

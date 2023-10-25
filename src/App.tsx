@@ -5,7 +5,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { Stack } from "@mui/material";
 import TopAppBar from "./components/Layout/TopAppBar";
 import Dashboard from "./components/Dashboard";
-import Users from "./components/Users";
 import AdminBanner from "./components/Admin/uploads/AdminBanner";
 import AdminMostLoved from "./components/Admin/uploads/AdminProducts";
 import AddAdminCategory from "./components/Admin/Add/AddAdminCategory";
@@ -25,6 +24,7 @@ import EnhancedTable from "./components/reusable/MuiTable";
 import Orders from "./components/Admin/Orders";
 import { socket } from "./socket";
 import NewOrder from "./components/Orders/NewOrder";
+import CheckOut from "./components/Orders/CheckOut";
 
 interface Props {
   children: React.ReactNode;
@@ -61,7 +61,7 @@ function App() {
         <Stack mt={location.pathname.includes("admin") ? "90px" : "130px"}>
           <Routes>
             <Route
-              path="/"
+              path={navLinks.ROOT}
               element={
                 <HOC>
                   <Home />
@@ -72,7 +72,7 @@ function App() {
             <Route
               element={
                 <Protected
-                  redirectPath="/"
+                  redirectPath={navLinks.ROOT}
                   isAllowed={
                     (userData?.token ? true : false) &&
                     (userData?.role?.includes("user") ? true : false)
@@ -81,7 +81,7 @@ function App() {
               }
             >
               <Route
-                path="/dashboard"
+                path={navLinks.DASHBOARD}
                 element={
                   <HOC>
                     <Dashboard />
@@ -89,10 +89,10 @@ function App() {
                 }
               />
               <Route
-                path="/users"
+                path={navLinks.CHECKOUT}
                 element={
                   <HOC>
-                    <Users />
+                    <CheckOut />
                   </HOC>
                 }
               />

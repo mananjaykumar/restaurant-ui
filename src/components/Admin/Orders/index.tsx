@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Stack, TableCell, TableRow } from "@mui/material";
+import { Stack, TableCell, TableRow, Typography } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -158,6 +158,10 @@ const Orders = () => {
         // numeric: false,
       },
       {
+        label: "Products",
+        numeric: false,
+      },
+      {
         label: "Customer",
         // numeric: false,
       },
@@ -193,10 +197,6 @@ const Orders = () => {
         label: "",
         // numeric: false,
       },
-      // {
-      //   label: "Products",
-      //   numeric: false,
-      // },
     ],
     page,
     rowsPerPage: rowsPerPage,
@@ -307,8 +307,18 @@ const Orders = () => {
               return (
                 <TableRow key={order?._id} sx={{ ...tableBorderStyles }}>
                   <TableCell>{order?._id}</TableCell>
+                  <TableCell>
+                    {order.products?.length > 0 ? (
+                      order?.products.map((product: any) => (
+                        <Typography>
+                          {product.item.title} x {product.quantity}
+                        </Typography>
+                      ))
+                    ) : (
+                      <Typography sx={{ textAlign: "center" }}>-</Typography>
+                    )}
+                  </TableCell>
                   <TableCell>{order?.user?.name}</TableCell>
-                  {/* <TableCell>{order?.products}</TableCell> */}
                   <TableCell>{order?.address}</TableCell>
                   <TableCell>{order?.instructions}</TableCell>
                   <TableCell>{order?.order_type}</TableCell>
