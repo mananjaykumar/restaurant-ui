@@ -59,7 +59,7 @@ const Cart = (props: any) => {
           sx={{
             position: "fixed",
             bottom: 0,
-            width: "380px",
+            width: "87%",
             backgroundColor: "#ffff",
             justifyContent: "center",
             padding: "20px 0px",
