@@ -92,7 +92,7 @@ function TopAppBar() {
     {
       name: "Orders",
       icon: <ShoppingBagOutlinedIcon />,
-      to: "/orders",
+      to: routes.ORDERS,
       drawer: false,
     },
     {

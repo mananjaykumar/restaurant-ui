@@ -21,10 +21,12 @@ import Footer from "./components/Layout/Footer";
 import "aos/dist/aos.css";
 import LoadingBar from "react-top-loading-bar";
 import EnhancedTable from "./components/reusable/MuiTable";
-import Orders from "./components/Admin/Orders";
+import AdminOrders from "./components/Admin/Orders";
 import { socket } from "./socket";
 import NewOrder from "./components/Orders/NewOrder";
 import CheckOut from "./components/Orders/CheckOut";
+import Orders from "./components/Orders";
+import OrderDetails from "./components/Orders/OrderDetails";
 
 interface Props {
   children: React.ReactNode;
@@ -93,6 +95,22 @@ function App() {
                 element={
                   <HOC>
                     <CheckOut />
+                  </HOC>
+                }
+              />
+              <Route
+                path={navLinks.ORDERS}
+                element={
+                  <HOC>
+                    <Orders />
+                  </HOC>
+                }
+              />
+              <Route
+                path={navLinks.ORDER_DETAILS}
+                element={
+                  <HOC>
+                    <OrderDetails />
                   </HOC>
                 }
               />
@@ -184,7 +202,7 @@ function App() {
                         marginTop: "50px",
                       }}
                     >
-                      <Orders />
+                      <AdminOrders />
                     </Stack>
                   </HOCAdmin>
                 }

@@ -2,6 +2,7 @@ export const ROOT = "/";
 export const CHECKOUT = "/user/checkout";
 export const DASHBOARD = "/user/dashboard";
 export const ORDERS = "/user/orders";
+export const ORDER_DETAILS = "/user/order/:id";
 
 // Admin Routes
 export const R_ROOT = "/admin";

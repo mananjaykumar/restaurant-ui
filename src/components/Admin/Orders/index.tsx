@@ -21,7 +21,7 @@ export interface IDateRangeData {
   pastDate: string;
 }
 
-const Orders = () => {
+const AdminOrders = () => {
   const dispatch = useDispatch();
   const [dateRangeData, setDateRangeData] = useState<IDateRangeData>({
     startDate: dayjs().startOf("day").subtract(7, "day"),
@@ -239,7 +239,6 @@ const Orders = () => {
   useEffect(() => {
     socket.emit("join", "adminRoom");
     socket.on("orderPlaced", (data) => {
-      console.log("orderPlaced", data);
       toast.success("New Order Placed");
       setOrders((prev: any) => {
         const oldOrders = [...prev.data];
@@ -385,4 +384,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AdminOrders;
