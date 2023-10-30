@@ -215,6 +215,7 @@ const AdminOrders = () => {
     subMsg: "We could not find any Orders matching your search",
     dense: true,
     handleRequestSort: () => {},
+    loading,
   };
 
   const call = useCallback(Debounce(handleApiCall, 500), []);

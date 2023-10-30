@@ -59,7 +59,7 @@ const Orders = () => {
           height: "calc(100vh - 190px)",
         }}
       >
-        <CircularProgress />
+        <CircularProgress sx={{ color: "#FC8019" }} />
       </Stack>
     );
   }

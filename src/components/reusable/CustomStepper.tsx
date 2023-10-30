@@ -1,49 +1,22 @@
 import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
-import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
+import {
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  Typography,
+  StepIconProps,
+} from "@mui/material";
+import StepConnector, {
+  stepConnectorClasses,
+} from "@mui/material/StepConnector";
+import ElectricMopedIcon from "@mui/icons-material/ElectricMoped";
+import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
+import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import DoneIcon from "@mui/icons-material/Done";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/material/styles";
 import dayjs from "dayjs";
-
-// const steps = [
-//   {
-//     label: "Select campaign settings",
-//     description: `For each ad campaign that you create, you can control how much
-//               you're willing to spend on clicks and conversions, which networks
-//               and geographical locations you want your ads to show on, and more.`,
-//   },
-//   {
-//     label: "Create an ad group",
-//     description:
-//       "An ad group contains one or more ads which target a shared set of keywords.",
-//   },
-//   {
-//     label: "Create an ad",
-//     description: `Try out different ad text to see what brings in the most customers,
-//               and learn how to enhance your ads using features like ad extensions.
-//               If you run into any problems with your ads, find out how to tell if
-//               they're running and how to resolve approval issues.`,
-//   },
-// ];
-
-const steps = [
-  {
-    label: "Order Placed",
-    updatedAt: "",
-  },
-  {
-    label: "Preparing",
-    description: "",
-  },
-  {
-    label: "On The Way",
-    description: "",
-  },
-];
 
 export default function CustomStepper(props: {
   map: {
@@ -83,6 +56,77 @@ export default function CustomStepper(props: {
     setActiveStep(0);
   };
 
+  const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+    // [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    //   top: 22,
+    // },
+    [`&.${stepConnectorClasses.active}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: "#FC8019",
+      },
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        borderColor: "#FC8019",
+      },
+    },
+    // [`& .${stepConnectorClasses.line}`]: {
+    //   height: 3,
+    //   border: 0,
+    //   backgroundColor:
+    //     theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+    //   borderRadius: 1,
+    // },
+  }));
+
+  const StepIconRoot = styled("div")<{
+    ownerState: { active?: boolean; completed?: boolean };
+  }>(({ theme, ownerState }) => ({
+    backgroundColor: "#fff",
+    // border: `1px solid ${theme.palette.primary.main}`,
+    // color: theme.palette.primary.main,
+    color: "#949494",
+    width: 30,
+    height: 30,
+    display: "flex",
+    borderRadius: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "15px",
+    fontWeight: 500,
+    ...(ownerState.active && {
+      backgroundColor: "#fff",
+      color: "#FC8019",
+    }),
+    ...(ownerState.completed && {
+      backgroundColor: "#fff",
+      color: "#FC8019",
+    }),
+  }));
+
+  function StepIcon(props: StepIconProps) {
+    const { active, className, icon, completed } = props;
+    console.log("props", props);
+
+    const icons: { [index: string]: React.ReactElement } = {
+      1: <HistoryToggleOffIcon fontSize="medium" />,
+      2: <RamenDiningIcon fontSize="medium" />,
+      3: <ElectricMopedIcon fontSize="medium" />,
+      4: <DoneIcon fontSize="medium" />,
+    };
+    return (
+      <StepIconRoot ownerState={{ active, completed }} className={className}>
+        {Object.values(map).length === 1 ? (
+          <CloseIcon fontSize="medium" sx={{ color: "red" }} />
+        ) : completed ? (
+          <DoneIcon fontSize="medium" />
+        ) : (
+          icons[String(icon)]
+        )}
+      </StepIconRoot>
+    );
+  }
+
   return (
     <Box sx={{ maxWidth: 400 }}>
       <Stepper
@@ -92,10 +136,11 @@ export default function CustomStepper(props: {
             : activeStep
         }
         orientation="vertical"
+        connector={<ColorlibConnector />}
       >
         {Object.values(map)?.map((step, index) => (
           <Step key={step.label}>
-            <StepLabel>
+            <StepLabel StepIconComponent={StepIcon}>
               <Typography fontSize="1rem" fontWeight={500}>
                 {step.label}
               </Typography>

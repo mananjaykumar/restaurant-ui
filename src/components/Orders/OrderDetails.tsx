@@ -178,7 +178,7 @@ const OrderDetails = () => {
           height: "calc(100vh - 190px)",
         }}
       >
-        <CircularProgress />
+        <CircularProgress sx={{ color: "#FC8019" }} />
       </Stack>
     );
   }
@@ -206,6 +206,14 @@ const OrderDetails = () => {
           startIcon={<ArrowBackIcon />}
           onClick={() => {
             navigate(-1);
+          }}
+          sx={{
+            borderColor: "#FC8019",
+            color: "#FC8019",
+            "&:hover": {
+              borderColor: "#FC8019",
+              color: "#FC8019",
+            },
           }}
         >
           Back
