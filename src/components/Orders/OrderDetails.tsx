@@ -127,6 +127,7 @@ const OrderDetails = () => {
         setLoading(false);
       })
       .catch((err) => {
+        toast.error(err.response.data.message);
         setLoading(false);
       });
   }, []);
