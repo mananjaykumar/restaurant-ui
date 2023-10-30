@@ -113,8 +113,8 @@ const OrderDetails = () => {
             ...prev,
           };
         });
-        setActiveStep(mapData[res?.data?.data?.status].step);
-        const index = mapData[res?.data?.data?.status].step;
+        setActiveStep(mapData[res?.data?.data?.status]?.step);
+        const index = mapData[res?.data?.data?.status]?.step;
         setCompleted((prev) => ({
           ...prev,
           ...Object.keys(mapData).reduce((acc, curr, i) => {
@@ -127,7 +127,15 @@ const OrderDetails = () => {
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        setMapData({
+          NOT_FOUND: {
+            step: 0,
+            label: "Not Found",
+            value: "NOT_FOUND",
+            updatedAt: "",
+          },
+        });
+        toast.error("Order Not Found!");
         setLoading(false);
       });
   }, []);

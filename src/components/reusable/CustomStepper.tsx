@@ -106,7 +106,6 @@ export default function CustomStepper(props: {
 
   function StepIcon(props: StepIconProps) {
     const { active, className, icon, completed } = props;
-    console.log("props", props);
 
     const icons: { [index: string]: React.ReactElement } = {
       1: <HistoryToggleOffIcon fontSize="medium" />,

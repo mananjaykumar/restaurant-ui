@@ -26,7 +26,6 @@ const StatusChange = (props: any) => {
 
   const handleStatusChange = (event: SelectChangeEvent) => {
     const item = statusArr.find((item) => item.value === event.target.value);
-    console.log("item", item);
     if (item) {
       axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/update-order`, {
