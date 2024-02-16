@@ -309,11 +309,13 @@ const AdminOrders = () => {
                   <TableCell>{order?._id}</TableCell>
                   <TableCell>
                     {order.products?.length > 0 ? (
-                      order?.products.map((product: any) => (
-                        <Typography>
-                          {product.item.title} x {product.quantity}
-                        </Typography>
-                      ))
+                      order?.products.map(
+                        (product: any, productKey: number) => (
+                          <Typography key={productKey}>
+                            {product.item.title} x {product.quantity}
+                          </Typography>
+                        )
+                      )
                     ) : (
                       <Typography sx={{ textAlign: "center" }}>-</Typography>
                     )}

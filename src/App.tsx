@@ -56,7 +56,7 @@ function App() {
     });
   });
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", flexFlow: "column" }}>
       {/* <Sidebar /> */}
       <div style={{ flex: 1 }}>
         {/* <TopAppBar /> */}

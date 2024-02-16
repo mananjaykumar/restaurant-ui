@@ -152,7 +152,7 @@ export const CommonTable = (props: ITable) => {
     isPaginationNotNeeded,
   } = props;
   const classes = useStyles(theme);
-  const page = info?.meta?.pagination?.page;
+  const page = info?.meta?.pagination?.page || 1;
   const sortHandler = (currentSortSelection: string) => {
     return onRequestSort ? onRequestSort(currentSortSelection) : null;
   };
@@ -160,7 +160,7 @@ export const CommonTable = (props: ITable) => {
   return (
     <Stack
       sx={{
-        width: width || "-webkit-fill-available",
+        width: "-webkit-fill-available",
       }}
       spacing={0.5}
     >
@@ -425,7 +425,7 @@ export const CommonTable = (props: ITable) => {
               },
             }}
             component={Stack}
-            count={info?.meta?.pagination?.total}
+            count={info?.meta?.pagination?.total || 0}
             page={page - 1}
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
