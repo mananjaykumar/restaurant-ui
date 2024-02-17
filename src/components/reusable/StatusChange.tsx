@@ -21,7 +21,7 @@ const statusArr = [
     label: "ON THE WAY",
     value: "ON_THE_WAY",
     // color: "#634430",
-    color: "#964B00",
+    color: "purple",
     disabledColor: theme.palette.grey[500],
   },
   {
