@@ -8,7 +8,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AOS from "aos";
 
-
 const Footer = () => {
   useEffect(() => {
     AOS.init();
@@ -41,7 +40,11 @@ const Footer = () => {
             sx={{
               color: "white",
             }}
-            onClick={() => (window.location.href = "https://www.youtube.com")}
+            // onClick={() => (window.location.href = "https://www.youtube.com")}
+            onClick={() =>
+              (window.location.href =
+                "https://www.youtube.com/channel/UCU889rxrmHpf-dnB__hD8xQ")
+            }
           >
             <YouTubeIcon fontSize="large" />
           </IconButton>
@@ -49,7 +52,10 @@ const Footer = () => {
             sx={{
               color: "white",
             }}
-            onClick={() => (window.location.href = "https://www.instagram.com")}
+            // onClick={() => (window.location.href = "https://www.instagram.com")}
+            onClick={() =>
+              (window.location.href = "https://www.instagram.com/__mj_28_/")
+            }
           >
             <InstagramIcon fontSize="large" />
           </IconButton>
@@ -57,7 +63,11 @@ const Footer = () => {
             sx={{
               color: "white",
             }}
-            onClick={() => (window.location.href = "https://www.facebook.com")}
+            // onClick={() => (window.location.href = "https://www.facebook.com")}
+            onClick={() =>
+              (window.location.href =
+                "https://www.facebook.com/rishab.sinha.56/")
+            }
           >
             <FacebookIcon fontSize="large" />
           </IconButton>
