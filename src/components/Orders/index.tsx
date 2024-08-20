@@ -108,9 +108,11 @@ const Orders = () => {
           gap: "1rem",
         }}
       >
-        {orders?.map((item) => (
-          <CustomAccordion item={item} key={item?._id} />
-        ))}
+        {orders.length === 0 ? (
+          <Typography textAlign="center">No Orders</Typography>
+        ) : (
+          orders?.map((item) => <CustomAccordion item={item} key={item?._id} />)
+        )}
       </Stack>
     </Stack>
   );
