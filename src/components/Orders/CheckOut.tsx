@@ -72,7 +72,7 @@ const CheckOut = () => {
                   ${item?.product?.img?.data}`}
                     alt={item.product.title}
                     style={{
-                      height: "125px",
+                      height: "150px",
                       width: "150px",
                     }}
                   />
