@@ -860,10 +860,10 @@ export default function Sidebar({ children }: ISidebar) {
                 sx={{ display: "block", width: "80%" }}
               >
                 <ListItemButton
-                  selected={
-                    // selectedIndexForStyle === userProfileButtonIndex ||
-                    location.pathname === navLinks.R_SETTINGS
-                  }
+                  // selected={
+                  //   // selectedIndexForStyle === userProfileButtonIndex ||
+                  //   location.pathname === navLinks.R_SETTINGS
+                  // }
                   //   onClick={(e) =>
                   //     handleListItemClick(
                   //       e,
