@@ -27,6 +27,7 @@ import NewOrder from "./components/Orders/NewOrder";
 import CheckOut from "./components/Orders/CheckOut";
 import Orders from "./components/Orders";
 import OrderDetails from "./components/Orders/OrderDetails";
+import Settings from "./components/Admin/Settings";
 
 interface Props {
   children: React.ReactNode;
@@ -212,6 +213,14 @@ function App() {
                 element={
                   <HOCAdmin>
                     <UsersList />
+                  </HOCAdmin>
+                }
+              />
+              <Route
+                path={navLinks.R_SETTINGS}
+                element={
+                  <HOCAdmin>
+                    <Settings />
                   </HOCAdmin>
                 }
               />

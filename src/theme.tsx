@@ -4,9 +4,11 @@ import { createTheme, Theme } from "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface PaletteColor {
     hover?: string;
+    success?: string;
   }
   interface SimplePaletteColorOptions {
     hover?: string;
+    success?: string;
   }
 }
 const theme: Theme = createTheme({
@@ -15,6 +17,7 @@ const theme: Theme = createTheme({
       main: "#04165D",
       light: "#EDF5FF",
       hover: "#0726A1",
+      success: "#008000",
     },
     secondary: {
       main: "#DB5B90",
@@ -27,7 +30,7 @@ const theme: Theme = createTheme({
       400: "#4E4E4E",
       500: "#777777",
       600: "#949494",
-      700: "#DCDCDC"
+      700: "#DCDCDC",
     },
     text: {
       primary: "#000000",

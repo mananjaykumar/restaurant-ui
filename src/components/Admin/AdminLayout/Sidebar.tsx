@@ -36,6 +36,7 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import AddIcon from "@mui/icons-material/Add";
 import ReorderOutlinedIcon from "@mui/icons-material/ReorderOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import * as navLinks from "../../../routes/constants";
 import { AppBar } from "./AppBar";
 import LoadingBar from "react-top-loading-bar";
@@ -172,6 +173,14 @@ const bottomItems = [
     collapsable: false,
     // link: navLinks.R_TEAM,
     link: navLinks.R_USERS_LIST,
+  },
+  {
+    icon: <SettingsOutlinedIcon />,
+    activeIcon: <SettingsOutlinedIcon />,
+    label: "Settings",
+    collapsable: false,
+    // link: navLinks.R_TEAM,
+    link: navLinks.R_SETTINGS,
   },
 ];
 
