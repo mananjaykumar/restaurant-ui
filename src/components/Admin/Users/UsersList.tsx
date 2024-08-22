@@ -35,6 +35,7 @@ const UsersList = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const [fieldId, setFieldId] = useState("");
+  const [isRestrictedUser, setIsRestrictedUser] = useState<boolean>();
   const [users, setUsers] = useState<Users>();
   const [searchText, setSearchText] = useState("");
   const [isSearchTextAdded, setIsSearchTextAdded] = useState(false);
@@ -83,15 +84,56 @@ const UsersList = () => {
   // const handleEdit = () => {
   //   setAnchorEl(null);
   // };
+  const handleBlock = () => {
+    setAnchorEl(null);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/block-user`, {
+        user_id: fieldId,
+      })
+      .then((res) => {
+        handleApiCall();
+        toast.success(res?.data?.message);
+      })
+      .catch((err) => {
+        toast.success(err?.response?.data?.message);
+      });
+    setFieldId("");
+    setAnchorEl(null);
+  };
+  const handleDelete = () => {
+    setAnchorEl(null);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/admin/delete-user`, {
+        user_id: fieldId,
+      })
+      .then((res) => {
+        handleApiCall();
+        toast.success(res?.data?.message);
+      })
+      .catch((err) => {
+        toast.success(err?.response?.data?.message);
+      });
+    setFieldId("");
+    setAnchorEl(null);
+  };
   const menuItems = {
-    items: [],
+    items: [
+      { displayName: "Delete", disable: false, handlerFunc: handleDelete },
+      {
+        displayName: isRestrictedUser ? "Unblock" : "Block",
+        disable: false,
+        handlerFunc: handleBlock,
+      },
+    ],
   };
   const handleMenu = (
     event: React.ChangeEvent<HTMLInputElement>,
-    _id: string
+    _id: string,
+    item: any
   ) => {
     setAnchorEl(event.currentTarget);
     setFieldId(_id);
+    setIsRestrictedUser(item.isRestricted);
   };
 
   const menuProps = {
@@ -189,7 +231,15 @@ const UsersList = () => {
                 item: user,
               };
               return (
-                <TableRow key={user._id} sx={{ ...tableBorderStyles }}>
+                <TableRow
+                  key={user._id}
+                  sx={{
+                    ...tableBorderStyles,
+                    backgroundColor: user?.isRestricted
+                      ? "antiquewhite"
+                      : "inherit",
+                  }}
+                >
                   <TableCell>{user?.name}</TableCell>
                   <TableCell>{user?.email || "_"}</TableCell>
                   <TableCell sx={{ textTransform: "capitalize" }}>
