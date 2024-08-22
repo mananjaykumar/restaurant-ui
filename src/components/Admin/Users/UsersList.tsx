@@ -95,7 +95,7 @@ const UsersList = () => {
         toast.success(res?.data?.message);
       })
       .catch((err) => {
-        toast.success(err?.response?.data?.message);
+        toast.error(err?.response?.data?.message);
       });
     setFieldId("");
     setAnchorEl(null);
@@ -111,7 +111,7 @@ const UsersList = () => {
         toast.success(res?.data?.message);
       })
       .catch((err) => {
-        toast.success(err?.response?.data?.message);
+        toast.error(err?.response?.data?.message);
       });
     setFieldId("");
     setAnchorEl(null);
