@@ -13,7 +13,7 @@ import SearchInput from "../../reusable/SearchInput";
 import { Debounce } from "../../../utils/Debounce";
 import { useDispatch } from "react-redux";
 import { setProgress } from "../../../store/slices/ProgressSlice";
-import NewCommonTable from "../../reusable/NewCommonTable";
+// import NewCommonTable from "../../reusable/NewCommonTable";
 
 export interface IDateRangeData {
   startDate: Dayjs | null;

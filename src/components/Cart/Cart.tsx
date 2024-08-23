@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Typography, Stack } from "@mui/material";
 import CartProduct from "./CartProduct";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  // useDispatch,
+  useSelector,
+} from "react-redux";
 // import { createOrder } from "../../Redux/CounterSlice";
 import { useNavigate } from "react-router-dom";
 import * as navLinks from "../../routes/constants";

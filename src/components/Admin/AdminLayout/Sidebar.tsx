@@ -492,7 +492,7 @@ interface ISidebar {
 export default function Sidebar({ children }: ISidebar) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const [open, setOpen] = useState(false);
   // const [collapseOpen, setCollapseOpen] = useState(false);
   const { userData } = useSelector((store: any) => store.auth);

@@ -1,8 +1,6 @@
 import {
-  Box,
   Button,
   CircularProgress,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -15,7 +13,6 @@ import // addToCart,
 // removeFromCart,
 //   deleteFromCart,
 "../../store/slices/AuthSlice";
-import theme from "../../theme";
 import { useState } from "react";
 import { updateCart } from "../../store/slices/AuthSlice";
 import axios from "axios";

@@ -1,26 +1,24 @@
 import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { CircularProgress, Stack, Switch, Typography } from "@mui/material";
 import theme from "../../../theme";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setProgress } from "../../../store/slices/ProgressSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+// const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+//   ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: "center",
+//   color: theme.palette.text.secondary,
+// }));
 
 const Settings = () => {
   const dispatch = useDispatch();
-  const { userData } = useSelector((state: any) => state.auth);
+  // const { userData } = useSelector((state: any) => state.auth);
   const [loading, setLoading] = React.useState(true);
   const [settingData, setSettingData] = React.useState({
     notify_orders_via_sms: false,

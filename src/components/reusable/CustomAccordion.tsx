@@ -10,7 +10,6 @@ import AdjustIcon from "@mui/icons-material/Adjust";
 import { Button, Divider, Grid, Stack, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import * as routes from "../../routes/constants";
 
 export default function CustomAccordion(props: any) {
   const navigate = useNavigate();
@@ -74,6 +73,7 @@ export default function CustomAccordion(props: any) {
                   <Stack>
                     <img
                       src={`data:image/${product.item.img.contentType};base64,${product.item.img.data}`}
+                      alt={product.item.img.contentType}
                       style={{ height: "100px", width: "100px" }}
                     />
                   </Stack>
