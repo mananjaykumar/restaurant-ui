@@ -88,7 +88,7 @@ const Footer = () => {
         >
           <Stack direction="row" alignItems="center" gap={0.5}>
             <PhoneIcon />
-            <Typography>+91 8233101857</Typography>
+            <Typography>+91 8233101852</Typography>
           </Stack>
           <Stack direction="row" alignItems="center" gap={0.5}>
             <EmailIcon />
